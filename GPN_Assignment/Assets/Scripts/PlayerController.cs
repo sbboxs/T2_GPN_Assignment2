@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float speed = 20f;
-    public float jumpspeed = 20f;
+    public float jumpspeed = 80f;
     private float direction = 0f;
     private Rigidbody2D player;
 
