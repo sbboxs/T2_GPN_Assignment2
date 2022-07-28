@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
 
         p.velocity = new Vector2(walkSpeed * direction * Time.fixedDeltaTime, p.velocity.y);
 
+        // Running
         if (direction != 0f)
         {
             playerAnimator.SetBool("IsRunning", true);
@@ -36,6 +37,7 @@ public class PlayerController : MonoBehaviour
             playerAnimator.SetBool("IsRunning", false);
         }
 
+        // Jumping
         if (jump > 0 && isTouchingGround)
         {
             playerAnimator.SetBool("Jump", true);
@@ -46,14 +48,10 @@ public class PlayerController : MonoBehaviour
             playerAnimator.SetBool("Jump", false);
         }
 
-        //if (jump > 0 && isTouchingGround)
-        //{
-        //    playerAnimator.SetBool("Jump", true);
-        //    player.velocity = new Vector2(walkSpeed * direction * Time.fixedDeltaTime, jumpspeed * jump * Time.fixedDeltaTime);
-        //}
-        //else
-        //{
-        //    playerAnimator.SetBool("Jump", false);
-        //}
+        // Attacking
+        if (Input.GetKeyDown(KeyCode.J) && isTouchingGround)
+        {
+            playerAnimator.SetTrigger("Attack");
+        }
     }
 }
