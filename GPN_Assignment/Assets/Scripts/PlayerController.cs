@@ -4,43 +4,56 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 20f;
-    public float jumpspeed = 80f;
-    private float direction = 0f;
-    private Rigidbody2D player;
-
-    public Transform groundCheck;
-    public float groundCheckRadius;
-    public LayerMask groundLayer;
+    public float walkSpeed, jumpVelocity;
+    private Rigidbody2D p;
     private bool isTouchingGround;
+
+    public Collider2D bodyCollider;
+    public LayerMask ground;
+    public Animator playerAnimator;
     // Start is called before the first frame update
     void Start()
     {
-        player = GetComponent<Rigidbody2D>();
+        p = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        isTouchingGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-        direction = Input.GetAxis("Horizontal");
+        isTouchingGround = bodyCollider.IsTouchingLayers(ground);
+        float direction = Input.GetAxisRaw("Horizontal");
+        float jump = Input.GetAxisRaw("Vertical");
 
-        if (direction > 0f)
+        p.velocity = new Vector2(walkSpeed * direction * Time.fixedDeltaTime, p.velocity.y);
+
+        if (direction != 0f)
         {
-            player.velocity = new Vector2(direction * speed, player.velocity.y);
-        }
-        else if (direction < 0f)
-        {
-            player.velocity = new Vector2(direction * speed, player.velocity.y);
+            playerAnimator.SetBool("IsRunning", true);
+            transform.localScale = new Vector2(Mathf.Abs(transform.localScale.x) * direction, transform.localScale.y);
         }
         else
         {
-            player.velocity = new Vector2(0, player.velocity.y);
+            playerAnimator.SetBool("IsRunning", false);
         }
 
-        if (Input.GetButtonDown("Jump") && isTouchingGround)
+        if (jump > 0 && isTouchingGround)
         {
-            player.velocity = new Vector2(player.velocity.y, jumpspeed);
+            playerAnimator.SetBool("Jump", true);
+            p.velocity = new Vector2(p.velocity.x, jumpVelocity * jump * Time.fixedDeltaTime);
         }
+        else if (jump == 0 && isTouchingGround)
+        {
+            playerAnimator.SetBool("Jump", false);
+        }
+
+        //if (jump > 0 && isTouchingGround)
+        //{
+        //    playerAnimator.SetBool("Jump", true);
+        //    player.velocity = new Vector2(walkSpeed * direction * Time.fixedDeltaTime, jumpspeed * jump * Time.fixedDeltaTime);
+        //}
+        //else
+        //{
+        //    playerAnimator.SetBool("Jump", false);
+        //}
     }
 }
