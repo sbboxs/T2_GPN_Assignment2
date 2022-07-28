@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class AIPatrol : MonoBehaviour
 {
-    public float walkSpeed;
+    public float walkSpeed, range/*, timeBTWShots, shootSpeed*/;
+    private float distToPlayer;
 
     [HideInInspector]
     public bool mustPatrol;
@@ -13,12 +14,17 @@ public class AIPatrol : MonoBehaviour
     private Rigidbody2D rb;
     public Transform groundCheckPos;
     public LayerMask groundLayer;
+    public Collider2D bodyCollider;
+    public Transform player;
+    //public GameObject bullet;
+    //public Transform shootPos;
 
     // Start is called before the first frame update
     void Start()
     {
         mustPatrol = true;
         rb = GetComponent<Rigidbody2D>();
+        player = GameObject.Find("Player").transform;
     }
 
     // Update is called per frame
@@ -27,6 +33,25 @@ public class AIPatrol : MonoBehaviour
         if (mustPatrol)
         {
             Patrol();
+        }
+
+        distToPlayer = Vector2.Distance(transform.position, player.position);
+
+        if (distToPlayer <= range)
+        {
+            if (player.position.x > transform.position.x && transform.localScale.x < 0 || player.position.x < transform.position.x && transform.localScale.x > 0)
+            {
+                Flip();
+            }
+
+            mustPatrol = false;
+
+            rb.velocity = Vector2.zero;
+            //StartCoroutine(Shoot());
+        }
+        else
+        {
+            mustPatrol = true;
         }
     }
 
@@ -40,7 +65,7 @@ public class AIPatrol : MonoBehaviour
 
     void Patrol()
     {
-        if (mustTurn)
+        if (mustTurn || bodyCollider.IsTouchingLayers(groundLayer))
         {
             Flip();
         }
@@ -55,4 +80,12 @@ public class AIPatrol : MonoBehaviour
         walkSpeed *= -1;
         mustPatrol = true;
     }
+
+    //IEnumerator Shoot()
+    //{
+    //    yield return new WaitForSeconds(timeBTWShots);
+    //    GameObject newBullet = Instantiate(bullet, shootPos.position, Quaternion.identity);
+
+    //    newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * walkSpeed * Time.fixedDeltaTime, 0f);
+    //}
 }
