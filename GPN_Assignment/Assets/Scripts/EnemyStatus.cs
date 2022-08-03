@@ -33,6 +33,5 @@ public class EnemyStatus : MonoBehaviour
         //Disable the enemy.
         GetComponent<Collider2D>().enabled = false;
         enabled = false;
-        
     }
 }
