@@ -12,6 +12,9 @@ public class PlayerController : MonoBehaviour
     public LayerMask ground;
     public Animator playerAnimator;
     public LayerMask enemyLayers;
+    public Rigidbody2D enemy;
+
+    public Transform collideEnemy;
 
     //Variable for attack
     public Transform AttackPoint;
@@ -36,6 +39,9 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Allow player to walk through monster
+        Physics2D.IgnoreLayerCollision(7, 9);
+
         isTouchingGround = bodyCollider.IsTouchingLayers(ground);
         float direction = Input.GetAxisRaw("Horizontal");
         float jump = Input.GetAxisRaw("Vertical");
@@ -70,18 +76,19 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space) && isTouchingGround)
             {
                 nextAttackTime = Time.time + (attackRate - attackRateBoost);  //TIme of now + attack rate
+
                 // Player animator
                 playerAnimator.SetTrigger("Attack");
 
-                //Detect enemies in range of attack
+                // Detect enemies in range of attack
                 Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(AttackPoint.position, attackRange, enemyLayers);
+
                 if (hitEnemies.Length != 0)
                 {
                     //Damage enemies
                     foreach (Collider2D enemy in hitEnemies)
                     {
-                        enemy.GetComponent<EnemyStatus>().TakeDamage(20);
-                        Debug.Log("We hit");
+                        enemy.GetComponent<AIPatrol>().TakeDamage(20);
                     }
                 }
             }
@@ -99,6 +106,7 @@ public class PlayerController : MonoBehaviour
             Die();
         }
     }
+
     void Die()
     {
         Debug.Log("Player died!");
