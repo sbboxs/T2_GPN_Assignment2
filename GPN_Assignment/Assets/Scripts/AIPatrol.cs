@@ -11,11 +11,14 @@ public class AIPatrol : MonoBehaviour
     public bool mustPatrol;
     private bool mustTurn;
 
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     public Transform groundCheckPos;
     public LayerMask groundLayer;
+    public LayerMask obstacles;
     public Collider2D bodyCollider;
     public Transform player;
+
+    public Animator skeletonAnimator;
     //public GameObject bullet;
     //public Transform shootPos;
 
@@ -53,12 +56,26 @@ public class AIPatrol : MonoBehaviour
         {
             mustPatrol = true;
         }
+
+        //Animation
+        /*d
+        if(walkSpeed > 0)
+        {
+            skeletonAnimator.SetBool("IsRunning", true);
+        }
+        else
+        {
+            skeletonAnimator.SetBool("IsRunning", false);
+
+        }
+        */
     }
 
     void FixedUpdate()
     {
         if (mustPatrol)
         {
+            //true
             mustTurn = !Physics2D.OverlapCircle(groundCheckPos.position, 0.1f, groundLayer);
         }
     }
