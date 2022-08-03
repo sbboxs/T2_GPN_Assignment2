@@ -11,6 +11,22 @@ public class PlayerController : MonoBehaviour
     public Collider2D bodyCollider;
     public LayerMask ground;
     public Animator playerAnimator;
+    public LayerMask enemyLayers;
+
+    //Variable for attack
+    public Transform AttackPoint;
+    public float attackRange = 0.5f;
+   
+    public float attackRate = 1.1f;
+    public float attackRateBoost = 0f; //Get from item
+    float nextAttackTime = 0f;
+
+    //Variable for character status
+    public int maxHealth = 100;
+    public int equipmentHealth;
+    int currentHealth;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +41,6 @@ public class PlayerController : MonoBehaviour
         float jump = Input.GetAxisRaw("Vertical");
 
         p.velocity = new Vector2(walkSpeed * direction * Time.fixedDeltaTime, p.velocity.y);
-
         // Running
         if (direction != 0f)
         {
@@ -48,10 +63,58 @@ public class PlayerController : MonoBehaviour
             playerAnimator.SetBool("Jump", false);
         }
 
-        // Attacking
-        if (Input.GetKeyDown(KeyCode.J) && isTouchingGround)
+        //Limiting Attack rate
+        if(Time.time >= nextAttackTime)
         {
-            playerAnimator.SetTrigger("Attack");
+            // Attacking
+            if (Input.GetKeyDown(KeyCode.Space) && isTouchingGround)
+            {
+                nextAttackTime = Time.time + (attackRate - attackRateBoost);  //TIme of now + attack rate
+                // Player animator
+                playerAnimator.SetTrigger("Attack");
+
+                //Detect enemies in range of attack
+                Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(AttackPoint.position, attackRange, enemyLayers);
+                if (hitEnemies.Length != 0)
+                {
+                    //Damage enemies
+                    foreach (Collider2D enemy in hitEnemies)
+                    {
+                        enemy.GetComponent<EnemyStatus>().TakeDamage(20);
+                        Debug.Log("We hit");
+                    }
+                }
+            }
         }
+        
+    }
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+
+        //Hurt Animation
+        playerAnimator.SetTrigger("Hurt");
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+    void Die()
+    {
+        Debug.Log("Player died!");
+        //Die animation
+        playerAnimator.SetBool("IsDead", true);
+        //Disable the player.
+        GetComponent<Collider2D>().enabled = false;
+        enabled = false;
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if (AttackPoint == null)
+        {
+            return;
+        }
+        Gizmos.DrawWireSphere(AttackPoint.position, attackRange);
     }
 }
