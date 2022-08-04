@@ -315,7 +315,7 @@ GameObject:
   m_Component:
   - component: {fileID: 509555357}
   m_Layer: 9
-  m_Name: ShootPos
+  m_Name: AttackPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -329,7 +329,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 509555356}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.152, y: -0.098, z: 0}
+  m_LocalPosition: {x: 0.063, y: -0.098, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -546,7 +546,7 @@ GameObject:
   m_Component:
   - component: {fileID: 618072626}
   m_Layer: 9
-  m_Name: ShootPos
+  m_Name: AttackPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -560,7 +560,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 618072625}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.049, y: -0.09739509, z: 0}
+  m_LocalPosition: {x: 0.027, y: -0.09739509, z: 0}
   m_LocalScale: {x: 1.1291878, y: 1.0004218, z: 30.96152}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -759,7 +759,7 @@ MonoBehaviour:
   attackRate: 2
   attackRateBoost: 0
   maxHealth: 100
-  equipmentHealth: 0
+  currentHealth: 0
 --- !u!50 &882674041
 Rigidbody2D:
   serializedVersion: 4
@@ -1177,8 +1177,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 1000
   range: 25
+  attackRate: 1.1
   mustPatrol: 0
   maxHealth: 100
+  playerHealth: 0
   rb: {fileID: 1700032291}
   groundCheckPos: {fileID: 941671236}
   objectCheckPos: {fileID: 474361043}
@@ -1191,8 +1193,13 @@ MonoBehaviour:
   enemy:
     serializedVersion: 2
     m_Bits: 512
+  players:
+    serializedVersion: 2
+    m_Bits: 128
   bodyCollider: {fileID: 1700032296}
   player: {fileID: 882674043}
+  shootPos: {fileID: 509555357}
+  playerCollider: {fileID: 882674045}
   skeletonAnimator: {fileID: 1700032292}
 --- !u!61 &1700032296
 BoxCollider2D:
@@ -1543,8 +1550,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 1000
   range: 25
+  attackRate: 1.1
   mustPatrol: 0
   maxHealth: 100
+  playerHealth: 0
   rb: {fileID: 1999361641}
   groundCheckPos: {fileID: 1798900339}
   objectCheckPos: {fileID: 975205164}
@@ -1557,8 +1566,13 @@ MonoBehaviour:
   enemy:
     serializedVersion: 2
     m_Bits: 512
+  players:
+    serializedVersion: 2
+    m_Bits: 128
   bodyCollider: {fileID: 1999361645}
   player: {fileID: 882674043}
+  shootPos: {fileID: 618072626}
+  playerCollider: {fileID: 882674045}
   skeletonAnimator: {fileID: 1999361642}
 --- !u!50 &1999361641
 Rigidbody2D:
