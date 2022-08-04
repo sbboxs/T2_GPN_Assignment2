@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         // Allow player to walk through monster
         Physics2D.IgnoreLayerCollision(7, 9);
 
@@ -70,7 +71,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //Limiting Attack rate
-        if(Time.time >= nextAttackTime)
+        if (Time.time >= nextAttackTime)
         {
             // Attacking
             if (Input.GetKeyDown(KeyCode.Space) && isTouchingGround)
@@ -93,8 +94,9 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-        
+
     }
+        
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
