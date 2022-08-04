@@ -6,6 +6,9 @@ public class AIPatrol : MonoBehaviour
 {
     public float walkSpeed, range/*, timeBTWShots, shootSpeed*/;
     private float distToPlayer;
+    public float attackRate = 2f;
+    float nextAttackTime = 0f;
+    float animDelay = 2f;
 
     [HideInInspector]
     public bool mustPatrol;
@@ -13,6 +16,7 @@ public class AIPatrol : MonoBehaviour
     private bool mustTurn2;
     public int maxHealth = 100;
     int currentHealth;
+    public int playerHealth;
 
     public Rigidbody2D rb;
     public Transform groundCheckPos;
@@ -20,13 +24,15 @@ public class AIPatrol : MonoBehaviour
     public LayerMask groundLayer;
     public LayerMask obstacles;
     public LayerMask enemy;
+    public LayerMask players;
     public Collider2D bodyCollider;
     public Transform player;
     private Collider2D[] enemies;
+    public Transform shootPos;
+    public Collider2D playerCollider;
 
     public Animator skeletonAnimator;
     //public GameObject bullet;
-    //public Transform shootPos;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +47,7 @@ public class AIPatrol : MonoBehaviour
     void Update()
     {
         skeletonAnimator.SetBool("IsRunning", mustPatrol);
+        playerHealth = playerCollider.GetComponent<PlayerController>().currentHealth;
 
         if (mustPatrol)
         {
@@ -49,21 +56,28 @@ public class AIPatrol : MonoBehaviour
 
         distToPlayer = Vector2.Distance(transform.position, player.position);
 
-        if (distToPlayer <= range && currentHealth > 0)
+        if (distToPlayer <= range && currentHealth > 0 && playerHealth > 0)
         {
             if (player.position.x > transform.position.x && transform.localScale.x < 0 || player.position.x < transform.position.x && transform.localScale.x > 0)
             {
                 Flip();
             }
 
-            mustPatrol = false;
+            if (Physics2D.OverlapCircle(shootPos.position, 0.1f, players) && Time.timeSinceLevelLoad >= nextAttackTime)
+            {
+                mustPatrol = false;
+                rb.velocity = Vector2.zero;
+                nextAttackTime = Time.timeSinceLevelLoad + attackRate;
+                skeletonAnimator.SetTrigger("Attack");
+                StartCoroutine(WaitForAnimation());
+            }
 
-            rb.velocity = Vector2.zero;
             //StartCoroutine(Shoot());
         }
-        else if (currentHealth <= 0)
+        else if (currentHealth <= 0 || playerHealth <= 0)
         {
             mustPatrol = false;
+            rb.velocity = Vector2.zero;
         }
         else
         {
@@ -127,6 +141,13 @@ public class AIPatrol : MonoBehaviour
         skeletonAnimator.SetBool("IsDead", true);
         //Disable the enemy.
         GetComponent<Collider2D>().enabled = false;
+    }
+
+    IEnumerator WaitForAnimation()
+    {
+        yield return new WaitForSeconds(1);
+
+        playerCollider.GetComponent<PlayerController>().TakeDamage(20);
     }
 
     //IEnumerator Shoot()
