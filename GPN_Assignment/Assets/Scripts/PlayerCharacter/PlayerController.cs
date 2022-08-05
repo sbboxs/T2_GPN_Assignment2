@@ -12,9 +12,6 @@ public class PlayerController : MonoBehaviour
     public LayerMask ground;
     public Animator playerAnimator;
     public LayerMask enemyLayers;
-    public Rigidbody2D enemy;
-
-    public Transform collideEnemy;
 
     //Variable for attack
     public Transform AttackPoint;
@@ -22,7 +19,6 @@ public class PlayerController : MonoBehaviour
    
     public float attackRate = 0.2f;
     public float attackRateBoost = 0f; //Get from item
-    //float nextAttackTime = 0f;
 
     //Variable for character status
     public int maxHealth = 100;
@@ -33,6 +29,7 @@ public class PlayerController : MonoBehaviour
     int lvl = 1;
     public int exp = 0;
     int lvlUp;
+    int attackCount = 1;
 
 
     // Start is called before the first frame update
@@ -90,12 +87,20 @@ public class PlayerController : MonoBehaviour
             {
                 playerAnimator.SetBool("Jump", false);
             }
-
+            
             // Attacking
-            if (Input.GetKeyDown(KeyCode.Space) && isTouchingGround && !attacking)
+            if (Input.GetKeyDown(KeyCode.Space) && isTouchingGround && !attacking && attackCount == 1)
             {
                 StartCoroutine(Attacking());
             }
+            else if (Input.GetKeyDown(KeyCode.Space) && isTouchingGround && !attacking && attackCount == 2)
+            {
+                StartCoroutine(Attacking());
+            }
+            //else if (Input.GetKeyDown(KeyCode.Space) && isTouchingGround && attacking)
+            //{
+
+            //}
 
             // Opening inventory
             //if (Input.GetKeyDown(KeyCode.E))
@@ -136,8 +141,18 @@ public class PlayerController : MonoBehaviour
     {
         attacking = true;
 
-        // Player animator
-        playerAnimator.SetTrigger("Attack");
+        if (attackCount == 1)
+        {
+            // Player animator
+            playerAnimator.SetTrigger("Attack");
+            attackCount = 2;
+        }
+        else
+        {
+            // Player animator
+            playerAnimator.SetTrigger("Attack2");
+            attackCount = 1;
+        }
 
         // Detect enemies in range of attack
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(AttackPoint.position, attackRange, enemyLayers);
@@ -151,7 +166,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.6f);
 
         attacking = false;
     }

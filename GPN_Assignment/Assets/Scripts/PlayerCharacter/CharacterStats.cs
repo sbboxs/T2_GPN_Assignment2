@@ -6,6 +6,9 @@ public class CharacterStats : MonoBehaviour
 {
     [SerializeField] protected int health;
     [SerializeField] protected int maxhealth;
+    [SerializeField] protected int atk;
+    [SerializeField] protected int lvl;
+    [SerializeField] protected int exp;
 
     [SerializeField] protected bool isDead;
 
@@ -54,5 +57,8 @@ public class CharacterStats : MonoBehaviour
         maxhealth = 100;
         SetHealthTo(maxhealth);
         isDead = false;
+        atk = 30;
+        lvl = 1;
+        exp = 0;
     }
 }
