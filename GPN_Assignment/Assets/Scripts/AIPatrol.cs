@@ -6,17 +6,12 @@ public class AIPatrol : MonoBehaviour
 {
     public float walkSpeed, range/*, timeBTWShots, shootSpeed*/;
     private float distToPlayer;
-    public float attackRate = 2f;
-    float nextAttackTime = 0f;
-    float animDelay = 2f;
 
     [HideInInspector]
     public bool mustPatrol;
     private bool mustTurn;
     private bool mustTurn2;
-    public int maxHealth = 100;
-    int currentHealth;
-    public int playerHealth;
+    int playerHealth;
 
     public Rigidbody2D rb;
     public Transform groundCheckPos;
@@ -30,6 +25,13 @@ public class AIPatrol : MonoBehaviour
     private Collider2D[] enemies;
     public Transform shootPos;
     public Collider2D playerCollider;
+
+    // Variable for monster status
+    public float attackRate = 2f;
+    float nextAttackTime = 0f;
+    public int maxHealth = 100;
+    int currentHealth;
+    int atkDMG = 10;
 
     public Animator skeletonAnimator;
     //public GameObject bullet;
@@ -141,13 +143,29 @@ public class AIPatrol : MonoBehaviour
         skeletonAnimator.SetBool("IsDead", true);
         //Disable the enemy.
         GetComponent<Collider2D>().enabled = false;
+        // Heals player
+        playerCollider.GetComponent<PlayerController>().currentHealth += 20;
+        // Player gains exp
+        playerCollider.GetComponent<PlayerController>().exp += 20;
+        // Monster revive
+        StartCoroutine(MonsterRespawn());
     }
 
     IEnumerator WaitForAnimation()
     {
         yield return new WaitForSeconds(1);
 
-        playerCollider.GetComponent<PlayerController>().TakeDamage(20);
+        playerCollider.GetComponent<PlayerController>().TakeDamage(atkDMG);
+    }
+
+    IEnumerator MonsterRespawn()
+    {
+        yield return new WaitForSeconds(10);
+
+        skeletonAnimator.SetBool("IsDead", false);
+        GetComponent<Collider2D>().enabled = true;
+        currentHealth = maxHealth;
+        mustPatrol = true;
     }
 
     //IEnumerator Shoot()

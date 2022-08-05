@@ -20,14 +20,19 @@ public class PlayerController : MonoBehaviour
     public Transform AttackPoint;
     public float attackRange = 0.5f;
    
-    public float attackRate = 1.1f;
+    public float attackRate = 0.2f;
     public float attackRateBoost = 0f; //Get from item
-    float nextAttackTime = 0f;
+    //float nextAttackTime = 0f;
 
     //Variable for character status
     public int maxHealth = 100;
     private int equipmentHealth;
     public int currentHealth;
+    int atkDMG = 20;
+    bool attacking = false;
+    int lvl = 1;
+    public int exp = 0;
+    int lvlUp;
 
 
     // Start is called before the first frame update
@@ -42,6 +47,20 @@ public class PlayerController : MonoBehaviour
     {
         if (currentHealth > 0)
         {
+            // Lvling up
+            lvlUp = lvl * 50;
+
+            if (exp >= lvlUp)
+            {
+                exp = exp - lvlUp;
+                lvl += 1;
+                atkDMG += 10;
+                maxHealth += 20;
+                currentHealth = maxHealth;
+                Debug.Log(lvl);
+                Debug.Log(atkDMG);
+                Debug.Log(currentHealth);
+            }
             // Allow player to walk through monster
             Physics2D.IgnoreLayerCollision(7, 9);
 
@@ -72,30 +91,17 @@ public class PlayerController : MonoBehaviour
                 playerAnimator.SetBool("Jump", false);
             }
 
-            //Limiting Attack rate
-            if (Time.time >= nextAttackTime)
+            // Attacking
+            if (Input.GetKeyDown(KeyCode.Space) && isTouchingGround && !attacking)
             {
-                // Attacking
-                if (Input.GetKeyDown(KeyCode.Space) && isTouchingGround)
-                {
-                    nextAttackTime = Time.time + (attackRate - attackRateBoost);  //TIme of now + attack rate
-
-                    // Player animator
-                    playerAnimator.SetTrigger("Attack");
-
-                    // Detect enemies in range of attack
-                    Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(AttackPoint.position, attackRange, enemyLayers);
-
-                    if (hitEnemies.Length != 0)
-                    {
-                        //Damage enemies
-                        foreach (Collider2D enemy in hitEnemies)
-                        {
-                            enemy.GetComponent<AIPatrol>().TakeDamage(20);
-                        }
-                    }
-                }
+                StartCoroutine(Attacking());
             }
+
+            // Opening inventory
+            //if (Input.GetKeyDown(KeyCode.E))
+            //{
+
+            //}
         }
     }
         
@@ -124,5 +130,29 @@ public class PlayerController : MonoBehaviour
             return;
         }
         Gizmos.DrawWireSphere(AttackPoint.position, attackRange);
+    }
+
+    IEnumerator Attacking()
+    {
+        attacking = true;
+
+        // Player animator
+        playerAnimator.SetTrigger("Attack");
+
+        // Detect enemies in range of attack
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(AttackPoint.position, attackRange, enemyLayers);
+
+        if (hitEnemies.Length != 0)
+        {
+            //Damage enemies
+            foreach (Collider2D enemy in hitEnemies)
+            {
+                enemy.GetComponent<AIPatrol>().TakeDamage(atkDMG);
+            }
+        }
+
+        yield return new WaitForSeconds(0.7f);
+
+        attacking = false;
     }
 }

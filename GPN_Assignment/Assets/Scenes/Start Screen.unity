@@ -760,6 +760,7 @@ MonoBehaviour:
   attackRateBoost: 0
   maxHealth: 100
   currentHealth: 0
+  exp: 0
 --- !u!50 &882674041
 Rigidbody2D:
   serializedVersion: 4
@@ -841,7 +842,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 882674038}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -194.6, y: 40.3, z: 0}
+  m_LocalPosition: {x: -194.6, y: 0.2, z: 0}
   m_LocalScale: {x: 41.17787, y: 41.17787, z: 41.17787}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1177,10 +1178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 1000
   range: 25
-  attackRate: 1.1
   mustPatrol: 0
-  maxHealth: 100
-  playerHealth: 0
   rb: {fileID: 1700032291}
   groundCheckPos: {fileID: 941671236}
   objectCheckPos: {fileID: 474361043}
@@ -1200,6 +1198,8 @@ MonoBehaviour:
   player: {fileID: 882674043}
   shootPos: {fileID: 509555357}
   playerCollider: {fileID: 882674045}
+  attackRate: 1.1
+  maxHealth: 100
   skeletonAnimator: {fileID: 1700032292}
 --- !u!61 &1700032296
 BoxCollider2D:
@@ -1550,10 +1550,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 1000
   range: 25
-  attackRate: 1.1
   mustPatrol: 0
-  maxHealth: 100
-  playerHealth: 0
   rb: {fileID: 1999361641}
   groundCheckPos: {fileID: 1798900339}
   objectCheckPos: {fileID: 975205164}
@@ -1573,6 +1570,8 @@ MonoBehaviour:
   player: {fileID: 882674043}
   shootPos: {fileID: 618072626}
   playerCollider: {fileID: 882674045}
+  attackRate: 1.1
+  maxHealth: 100
   skeletonAnimator: {fileID: 1999361642}
 --- !u!50 &1999361641
 Rigidbody2D:
@@ -1675,7 +1674,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1999361638}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -179.9, y: 4.5, z: 0}
+  m_LocalPosition: {x: -179.9, y: 45.1, z: 0}
   m_LocalScale: {x: 27.419281, y: 27.466764, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
