@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class DialogueTrigger : MonoBehaviour
 {
@@ -10,8 +11,8 @@ public class DialogueTrigger : MonoBehaviour
 
     [Header("Ink JSON")]
     [SerializeField] private TextAsset inkJSON;
-    private bool playerInRange;
 
+    private bool playerInRange;
     private void Awake()
     {
         playerInRange = false;

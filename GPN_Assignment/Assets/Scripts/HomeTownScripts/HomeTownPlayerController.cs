@@ -7,7 +7,7 @@ public class HomeTownPlayerController : MonoBehaviour
     public float walkSpeed, jumpVelocity;
     private Rigidbody2D p;
     private bool isTouchingGround;
-
+    public AudioSource footstep;
     public Collider2D bodyCollider;
     public LayerMask ground;
     public Animator playerAnimator;
@@ -54,10 +54,16 @@ public class HomeTownPlayerController : MonoBehaviour
             {
                 playerAnimator.SetBool("IsRunning", true);
                 transform.localScale = new Vector2(Mathf.Abs(transform.localScale.x) * direction, transform.localScale.y);
+                if (!footstep.isPlaying)
+                {
+                    footstep.Play();
+                }
+                
             }
             else
             {
                 playerAnimator.SetBool("IsRunning", false);
+                footstep.Stop();
             }
 
             // Jumping

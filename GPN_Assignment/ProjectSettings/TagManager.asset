@@ -50,9 +50,12 @@ TagManager:
   - name: ForeGround
     uniqueID: 2257019309
     locked: 0
-  - name: Character
-    uniqueID: 4118512503
+  - name: NPC
+    uniqueID: 2041493809
     locked: 0
   - name: UI
     uniqueID: 1281746055
+    locked: 0
+  - name: Character
+    uniqueID: 4118512503
     locked: 0
