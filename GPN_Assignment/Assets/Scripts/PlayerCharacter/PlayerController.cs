@@ -11,7 +11,8 @@ public class PlayerController : MonoBehaviour
     public Collider2D bodyCollider;
     public LayerMask ground;
     public Animator playerAnimator;
-    public LayerMask enemyLayers;
+    public LayerMask monster1;
+    public LayerMask monster2;
 
     //Variable for attack
     public Transform AttackPoint;
@@ -37,6 +38,10 @@ public class PlayerController : MonoBehaviour
     {
         p = GetComponent<Rigidbody2D>();
         currentHealth = maxHealth + equipmentHealth;
+
+        // Allow player to walk through monster
+        Physics2D.IgnoreLayerCollision(7, 9);
+        Physics2D.IgnoreLayerCollision(7, 11);
     }
 
     // Update is called once per frame
@@ -58,8 +63,6 @@ public class PlayerController : MonoBehaviour
                 Debug.Log(atkDMG);
                 Debug.Log(currentHealth);
             }
-            // Allow player to walk through monster
-            Physics2D.IgnoreLayerCollision(7, 9);
 
             isTouchingGround = bodyCollider.IsTouchingLayers(ground);
             float direction = Input.GetAxisRaw("Horizontal");
@@ -114,6 +117,8 @@ public class PlayerController : MonoBehaviour
     {
         currentHealth -= damage;
 
+        Debug.Log(currentHealth);
+
         //Hurt Animation
         playerAnimator.SetTrigger("Hurt");
         if (currentHealth <= 0)
@@ -154,15 +159,27 @@ public class PlayerController : MonoBehaviour
             attackCount = 1;
         }
 
-        // Detect enemies in range of attack
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(AttackPoint.position, attackRange, enemyLayers);
+        // Detect skeletons in range of attack
+        Collider2D[] skeletons = Physics2D.OverlapCircleAll(AttackPoint.position, attackRange, monster1);
 
-        if (hitEnemies.Length != 0)
+        if (skeletons.Length != 0)
         {
             //Damage enemies
-            foreach (Collider2D enemy in hitEnemies)
+            foreach (Collider2D skeleton in skeletons)
             {
-                enemy.GetComponent<AIPatrol>().TakeDamage(atkDMG);
+                skeleton.GetComponent<Skeleton>().TakeDamage(atkDMG);
+            }
+        }
+
+        // Detect archers in range of attack
+        Collider2D[] archers = Physics2D.OverlapCircleAll(AttackPoint.position, attackRange, monster2);
+
+        if (archers.Length != 0)
+        {
+            // Damage archers
+            foreach (Collider2D archer in archers)
+            {
+                archer.GetComponent<Archer>().TakeDamage(atkDMG);
             }
         }
 

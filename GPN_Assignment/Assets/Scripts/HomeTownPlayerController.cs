@@ -90,7 +90,7 @@ public class HomeTownPlayerController : MonoBehaviour
                         //Damage enemies
                         foreach (Collider2D enemy in hitEnemies)
                         {
-                            enemy.GetComponent<AIPatrol>().TakeDamage(20);
+                            enemy.GetComponent<Skeleton>().TakeDamage(20);
                         }
                     }
                 }
