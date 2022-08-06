@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Archer : MonoBehaviour
+public class Boss : MonoBehaviour
 {
     // Variable for movement
     public int walkSpeed;
@@ -14,13 +14,12 @@ public class Archer : MonoBehaviour
     // Variables for detecting collision
     public Transform groundCheckPos;
     public Transform objectCheckPos;
-    public Transform attackPosA;
-    public Transform attackPosB;
+    public Transform attackPos;
     public LayerMask groundLayer;
     public LayerMask obstacles;
     public LayerMask monster;
     public Collider2D bodyCollider;
-    public Rigidbody2D archer;
+    public Rigidbody2D skeleton;
 
     // Array of colliders of the monsters
     private Collider2D[] monsters;
@@ -36,25 +35,22 @@ public class Archer : MonoBehaviour
     // Variables for monster stats
     int maxHealth = 100;
     int currentHealth;
+    int atk = 30;
+    bool canAttack;
     bool hurt;
 
-    // Variable for arrow
-    public GameObject arrow;
-    public int shootSpeed;
-    private bool canShoot;
-
     // Animator for monster
-    public Animator archerAnimator;
+    public Animator bossAnimator;
 
     // Start is called before the first frame update
     void Start()
     {
         // Initializing the monster
         mustPatrol = true;
-        archer = GetComponent<Rigidbody2D>();
+        skeleton = GetComponent<Rigidbody2D>();
         player = GameObject.Find("Player").transform;
         currentHealth = maxHealth;
-        canShoot = true;
+        canAttack = true;
         hurt = false;
     }
 
@@ -62,7 +58,7 @@ public class Archer : MonoBehaviour
     void Update()
     {
         // Setting walking/running animation of monster based on the condition mustPatrol
-        archerAnimator.SetBool("IsRunning", mustPatrol);
+        bossAnimator.SetBool("IsRunning", mustPatrol);
 
         // Getting player's health to see whether player is dead or alive
         playerHealth = playerCollider.GetComponent<PlayerController>().currentHealth;
@@ -90,20 +86,20 @@ public class Archer : MonoBehaviour
 
             // Checking whether player is within the monster's attack range,
             // If it is then the monster will attack the player
-            if (Physics2D.OverlapArea(attackPosA.position, attackPosB.position) && canShoot && !hurt)
+            if (Physics2D.OverlapCircle(attackPos.position, 0.1f, playerLayer) && canAttack && !hurt)
             {
                 // Forces monster to stop moving when attacking
                 mustPatrol = false;
-                archer.velocity = Vector2.zero;
+                skeleton.velocity = Vector2.zero;
 
                 // Dealing damage
-                StartCoroutine(Shoot());
+                StartCoroutine(Attack());
             }
         }
         else if (currentHealth <= 0 || playerHealth <= 0)
         {
             mustPatrol = false;
-            archer.velocity = Vector2.zero;
+            skeleton.velocity = Vector2.zero;
         }
         else
         {
@@ -144,7 +140,7 @@ public class Archer : MonoBehaviour
         }
 
         // Setting the movement of the monster
-        archer.velocity = new Vector2(walkSpeed * Time.fixedDeltaTime, archer.velocity.y);
+        skeleton.velocity = new Vector2(walkSpeed * Time.fixedDeltaTime, skeleton.velocity.y);
     }
 
     void Flip()
@@ -155,12 +151,37 @@ public class Archer : MonoBehaviour
         mustPatrol = true;
     }
 
+    IEnumerator Attack()
+    {
+        canAttack = false;
+
+        // Activates the attack animation of the monster
+        bossAnimator.SetTrigger("Attack");
+
+        yield return new WaitForSeconds(1);
+
+        playerCollider.GetComponent<PlayerController>().TakeDamage(atk);
+
+        yield return new WaitForSeconds(1);
+
+        canAttack = true;
+    }
+
+    IEnumerator Hurt()
+    {
+        hurt = true;
+
+        yield return new WaitForSeconds(2);
+
+        hurt = false;
+    }
+
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
 
         // Hurt animation
-        archerAnimator.SetTrigger("Hurt");
+        bossAnimator.SetTrigger("Hurt");
 
         // Check if monster is dead,
         // If it is dead, then call the Die() method
@@ -177,7 +198,7 @@ public class Archer : MonoBehaviour
     void Die()
     {
         // Death animation
-        archerAnimator.SetBool("IsDead", true);
+        bossAnimator.SetBool("IsDead", true);
 
         // Disables the monster collider
         GetComponent<Collider2D>().enabled = false;
@@ -186,7 +207,7 @@ public class Archer : MonoBehaviour
         player.GetComponent<PlayerController>().currentHealth += 20;
 
         // Gives player exp
-        player.GetComponent<PlayerController>().exp += 20;
+        player.GetComponent<PlayerController>().exp += 100;
 
         // Monster revives after a set amount of time
         StartCoroutine(MonsterRespawn());
@@ -197,7 +218,7 @@ public class Archer : MonoBehaviour
         yield return new WaitForSeconds(20);
 
         // Disables the death animation
-        archerAnimator.SetBool("IsDead", false);
+        bossAnimator.SetBool("IsDead", false);
 
         // Enables the monster collider
         GetComponent<Collider2D>().enabled = true;
@@ -205,40 +226,5 @@ public class Archer : MonoBehaviour
         // Set the condition of monster to before death
         currentHealth = maxHealth;
         mustPatrol = true;
-    }
-
-    IEnumerator Shoot()
-    {
-        canShoot = false;
-
-        // Activates the attack animation of the monster
-        archerAnimator.SetTrigger("Attack");
-
-        yield return new WaitForSeconds(0.8f);
-
-        GameObject newArrow = Instantiate(arrow, attackPosA.position, Quaternion.identity);
-
-        if (transform.localScale.x > 0)
-        {
-            newArrow.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed, 0f);
-        }
-        else
-        {
-            newArrow.transform.localScale = new Vector2(newArrow.transform.localScale.x * -1, newArrow.transform.localScale.y);
-            newArrow.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * -1, 0f);
-        }
-
-        yield return new WaitForSeconds(0.8f);
-
-        canShoot = true;
-    }
-
-    IEnumerator Hurt()
-    {
-        hurt = true;
-
-        yield return new WaitForSeconds(2);
-
-        hurt = false;
     }
 }

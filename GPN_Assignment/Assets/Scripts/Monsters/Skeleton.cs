@@ -207,7 +207,7 @@ public class Skeleton : MonoBehaviour
         player.GetComponent<PlayerController>().currentHealth += 20;
 
         // Gives player exp
-        player.GetComponent<PlayerController>().currentHealth += 20;
+        player.GetComponent<PlayerController>().exp += 20;
 
         // Monster revives after a set amount of time
         StartCoroutine(MonsterRespawn());

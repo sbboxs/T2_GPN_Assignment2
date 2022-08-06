@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public Animator playerAnimator;
     public LayerMask monster1;
     public LayerMask monster2;
+    public LayerMask monster3;
 
     //Variable for attack
     public Transform AttackPoint;
@@ -42,6 +43,7 @@ public class PlayerController : MonoBehaviour
         // Allow player to walk through monster
         Physics2D.IgnoreLayerCollision(7, 9);
         Physics2D.IgnoreLayerCollision(7, 11);
+        Physics2D.IgnoreLayerCollision(7, 12);
     }
 
     // Update is called once per frame
@@ -180,6 +182,18 @@ public class PlayerController : MonoBehaviour
             foreach (Collider2D archer in archers)
             {
                 archer.GetComponent<Archer>().TakeDamage(atkDMG);
+            }
+        }
+
+        // Detect boss in range of attack
+        Collider2D[] boss = Physics2D.OverlapCircleAll(AttackPoint.position, attackRange, monster3);
+
+        if (boss.Length != 0)
+        {
+            // Damage boss
+            foreach (Collider2D Boss in boss)
+            {
+                Boss.GetComponent<Boss>().TakeDamage(atkDMG);
             }
         }
 
