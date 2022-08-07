@@ -33,11 +33,12 @@ public class Boss : MonoBehaviour
     public int range;
 
     // Variables for monster stats
-    int maxHealth = 100;
-    int currentHealth;
+    int maxHealth = 1000;
+    public int currentHealth;
     int atk = 30;
+    float atkSpeed = 1;
     bool canAttack;
-    bool hurt;
+    //bool hurt;
 
     // Animator for monster
     public Animator bossAnimator;
@@ -51,7 +52,7 @@ public class Boss : MonoBehaviour
         player = GameObject.Find("Player").transform;
         currentHealth = maxHealth;
         canAttack = true;
-        hurt = false;
+        //hurt = false;
     }
 
     // Update is called once per frame
@@ -86,7 +87,7 @@ public class Boss : MonoBehaviour
 
             // Checking whether player is within the monster's attack range,
             // If it is then the monster will attack the player
-            if (Physics2D.OverlapCircle(attackPos.position, 0.1f, playerLayer) && canAttack && !hurt)
+            if (Physics2D.OverlapCircle(attackPos.position, 0.1f, playerLayer) && canAttack)
             {
                 // Forces monster to stop moving when attacking
                 mustPatrol = false;
@@ -104,6 +105,18 @@ public class Boss : MonoBehaviour
         else
         {
             mustPatrol = true;
+        }
+
+        // Checking for the different stages of the boss
+        if (currentHealth <= 300)
+        {
+            atk = 90;
+            atkSpeed = 0.25f;
+        }
+        else if (currentHealth <= 700)
+        {
+            atk = 60;
+            atkSpeed = 0.5f;
         }
     }
 
@@ -158,22 +171,13 @@ public class Boss : MonoBehaviour
         // Activates the attack animation of the monster
         bossAnimator.SetTrigger("Attack");
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(atkSpeed);
 
         playerCollider.GetComponent<PlayerController>().TakeDamage(atk);
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(atkSpeed);
 
         canAttack = true;
-    }
-
-    IEnumerator Hurt()
-    {
-        hurt = true;
-
-        yield return new WaitForSeconds(2);
-
-        hurt = false;
     }
 
     public void TakeDamage(int damage)
@@ -188,10 +192,6 @@ public class Boss : MonoBehaviour
         if (currentHealth <= 0)
         {
             Die();
-        }
-        else
-        {
-            StartCoroutine(Hurt());
         }
     }
 

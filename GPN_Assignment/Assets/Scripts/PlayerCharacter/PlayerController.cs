@@ -23,15 +23,23 @@ public class PlayerController : MonoBehaviour
     public float attackRateBoost = 0f; //Get from item
 
     //Variable for character status
-    public int maxHealth = 100;
+    public int maxHealth = 1000;
     private int equipmentHealth;
     public int currentHealth;
-    int atkDMG = 20;
+    int atkDMG = 100;
     bool attacking = false;
     int lvl = 1;
     public int exp = 0;
     int lvlUp;
     int attackCount = 1;
+
+    // Variable for fireball
+    public GameObject fireBall;
+    public int shootSpeed;
+    private bool canShoot;
+
+    // Variable for rage
+    bool canRage;
 
 
     // Start is called before the first frame update
@@ -39,6 +47,8 @@ public class PlayerController : MonoBehaviour
     {
         p = GetComponent<Rigidbody2D>();
         currentHealth = maxHealth + equipmentHealth;
+        canShoot = true;
+        canRage = true;
 
         // Allow player to walk through monster
         Physics2D.IgnoreLayerCollision(7, 9);
@@ -102,16 +112,18 @@ public class PlayerController : MonoBehaviour
             {
                 StartCoroutine(Attacking());
             }
-            //else if (Input.GetKeyDown(KeyCode.Space) && isTouchingGround && attacking)
-            //{
 
-            //}
+            // Fireball
+            if (Input.GetKeyDown(KeyCode.E) && canShoot)
+            {
+                StartCoroutine(Fireball());
+            }
 
-            // Opening inventory
-            //if (Input.GetKeyDown(KeyCode.E))
-            //{
-
-            //}
+            // Rage
+            if (Input.GetKeyDown(KeyCode.R) && canRage)
+            {
+                StartCoroutine(Rage());
+            }
         }
     }
         
@@ -200,5 +212,47 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(0.6f);
 
         attacking = false;
+    }
+
+    IEnumerator Fireball()
+    {
+        canShoot = false;
+
+        GameObject newFireBall = Instantiate(fireBall, AttackPoint.position, Quaternion.identity);
+
+        if (transform.localScale.x > 0)
+        {
+            newFireBall.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed, 0f);
+        }
+        else
+        {
+            newFireBall.transform.localScale = new Vector2(newFireBall.transform.localScale.x * -1, newFireBall.transform.localScale.y);
+            newFireBall.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * -1, 0f);
+        }
+
+        yield return new WaitForSeconds(5);
+
+        canShoot = true;
+
+        Debug.Log("Can Shoot");
+    }
+
+    IEnumerator Rage()
+    {
+        canRage = false;
+
+        atkDMG += 30;
+
+        Debug.Log("Rage Started");
+
+        yield return new WaitForSeconds(15);
+
+        Debug.Log("Rage Ended");
+
+        atkDMG -= 30;
+
+        yield return new WaitForSeconds(30);
+
+        canRage = true;
     }
 }
