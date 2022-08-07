@@ -7,6 +7,6 @@ public class NewSceneLoader : MonoBehaviour
     private void OnEnable()
     {
         // Only specifying the sceneName or sceneBuildIndex will load the Scene with the Single mode
-        SceneManager.LoadScene("Menu", LoadSceneMode.Single);
+        SceneManager.LoadScene("HomeTown", LoadSceneMode.Single);
     }
 }
