@@ -65,3 +65,6 @@ TagManager:
   - name: StatusBar
     uniqueID: 3820008507
     locked: 0
+  - name: HowToPlay
+    uniqueID: 3319606517
+    locked: 0

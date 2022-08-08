@@ -10,6 +10,7 @@ public class CharacterAttribute
     public int mana;
     public int level;
     public int experience;
+
     //Resources
     public int gold;
 

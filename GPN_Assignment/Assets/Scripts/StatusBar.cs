@@ -24,6 +24,6 @@ public class StatusBar : MonoBehaviour
         maxHealth.text = character.health.ToString() + " / " + character.health.ToString();
         maxMana.text = character.mana.ToString() + " / " + character.mana.ToString();
         gold.text = character.gold.ToString();
-        experience.text = character.experience.ToString() + " / " + ((character.level + 1000) * 0.5).ToString();
+        experience.text = character.experience.ToString() + " / " + ((character.level + 1000) * 1.3).ToString();
     }
 }
