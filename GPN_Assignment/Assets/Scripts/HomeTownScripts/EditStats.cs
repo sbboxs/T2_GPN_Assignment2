@@ -57,9 +57,8 @@ public class EditStats : MonoBehaviour
         character.healthStatsPt = 0;
         character.strengthStatsPt = 0;
         character.defenseStatsPt = 0;
-        character.remainingStatsPt = character.level;
-        DataHandler.SaveToJSON(character, "CharacterAttribute");
-        GameSetUpScript.updateChracterAttribute();
+        character.remainingStatsPt = character.level - 1;
+        updateChracterAttribute(character);
         statsPanel.SetActive(false);
         statsPanel.SetActive(true);
         Debug.Log("Resetted");
