@@ -209,6 +209,9 @@ public class Boss : MonoBehaviour
         // Gives player exp
         player.GetComponent<PlayerController>().exp += 100;
 
+        // Gives player gold
+        player.GetComponent<PlayerController>().gold += 100;
+
         // Monster revives after a set amount of time
         StartCoroutine(MonsterRespawn());
     }

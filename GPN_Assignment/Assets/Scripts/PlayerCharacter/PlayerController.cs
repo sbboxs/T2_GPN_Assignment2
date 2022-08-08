@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
     bool attacking = false;
     int lvl = 1;
     public int exp = 0;
+    public int gold = 0;
     int lvlUp;
     int attackCount = 1;
 

@@ -17,12 +17,14 @@ public class Skeleton : MonoBehaviour
     public Transform attackPos;
     public LayerMask groundLayer;
     public LayerMask obstacles;
-    public LayerMask monster;
+    public LayerMask skeletonLayer;
+    public LayerMask archerLayer;
     public Collider2D bodyCollider;
     public Rigidbody2D skeleton;
 
     // Array of colliders of the monsters
-    private Collider2D[] monsters;
+    private Collider2D[] skeletons;
+    private Collider2D[] archers;
 
     // Variables for detecting player
     public Transform player;
@@ -33,9 +35,9 @@ public class Skeleton : MonoBehaviour
     public int range;
 
     // Variables for monster stats
-    int maxHealth = 100;
-    int currentHealth;
-    int atk = 15;
+    public int maxHealth = 100;
+    public int currentHealth;
+    public int atk = 15;
     bool canAttack;
     bool hurt;
 
@@ -119,7 +121,8 @@ public class Skeleton : MonoBehaviour
     void Patrol()
     {
         // Getting the list of monsters that it has came into contact with
-        monsters = Physics2D.OverlapCircleAll(objectCheckPos.position, 0.1f, monster);
+        skeletons = Physics2D.OverlapCircleAll(objectCheckPos.position, 0.1f, skeletonLayer);
+        archers = Physics2D.OverlapCircleAll(objectCheckPos.position, 0.1f, archerLayer);
 
         // Checking if monster needs to turn
         if (mustTurn || bodyCollider.IsTouchingLayers(obstacles))
@@ -128,9 +131,19 @@ public class Skeleton : MonoBehaviour
         }
 
         // Allowing monsters to walk past each other
-        if (monsters.Length != 0)
+        if (skeletons.Length != 0)
         {
-            foreach (Collider2D enemy in monsters)
+            foreach (Collider2D enemy in skeletons)
+            {
+                if (bodyCollider.IsTouching(enemy))
+                {
+                    Physics2D.IgnoreCollision(bodyCollider, enemy);
+                }
+            }
+        }
+        if (archers.Length != 0)
+        {
+            foreach (Collider2D enemy in archers)
             {
                 if (bodyCollider.IsTouching(enemy))
                 {
@@ -208,6 +221,9 @@ public class Skeleton : MonoBehaviour
 
         // Gives player exp
         player.GetComponent<PlayerController>().exp += 20;
+
+        // Gives player gold
+        player.GetComponent<PlayerController>().gold += 10;
 
         // Monster revives after a set amount of time
         StartCoroutine(MonsterRespawn());

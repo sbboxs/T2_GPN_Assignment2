@@ -8,6 +8,7 @@ public class Arrow : MonoBehaviour
     public int damage;
     public GameObject diePEFFECT;
     public Transform player;
+    public Collider2D bodyCollider;
     int playerHealth;
 
     // Start is called before the first frame update
@@ -23,11 +24,14 @@ public class Arrow : MonoBehaviour
     // Update is called once per frame
     void OnCollisionEnter2D(Collision2D col)
     {
-        Die();
-        if (playerHealth > 0 && col.collider.name.Equals(player.GetComponent<PlayerController>().bodyCollider.name))
+        if (!col.collider.name.Equals(bodyCollider.name))
         {
-            player.GetComponent<PlayerController>().TakeDamage(damage);
-            Debug.Log("Hit");
+            Die();
+            if (playerHealth > 0 && col.collider.name.Equals(player.GetComponent<PlayerController>().bodyCollider.name))
+            {
+                player.GetComponent<PlayerController>().TakeDamage(damage);
+                Debug.Log("Hit");
+            }
         }
     }
 

@@ -18,12 +18,14 @@ public class Archer : MonoBehaviour
     public Transform attackPosB;
     public LayerMask groundLayer;
     public LayerMask obstacles;
-    public LayerMask monster;
+    public LayerMask skeleton;
+    public LayerMask archerLayer;
     public Collider2D bodyCollider;
     public Rigidbody2D archer;
 
     // Array of colliders of the monsters
-    private Collider2D[] monsters;
+    private Collider2D[] skeletons;
+    private Collider2D[] archers;
 
     // Variables for detecting player
     public Transform player;
@@ -34,8 +36,8 @@ public class Archer : MonoBehaviour
     public int range;
 
     // Variables for monster stats
-    int maxHealth = 100;
-    int currentHealth;
+    public int maxHealth;
+    public int currentHealth;
     bool hurt;
 
     // Variable for arrow
@@ -123,7 +125,8 @@ public class Archer : MonoBehaviour
     void Patrol()
     {
         // Getting the list of monsters that it has came into contact with
-        monsters = Physics2D.OverlapCircleAll(objectCheckPos.position, 0.1f, monster);
+        skeletons = Physics2D.OverlapCircleAll(objectCheckPos.position, 0.1f, skeleton);
+        archers = Physics2D.OverlapCircleAll(objectCheckPos.position, 0.1f, archerLayer);
 
         // Checking if monster needs to turn
         if (mustTurn || bodyCollider.IsTouchingLayers(obstacles))
@@ -132,9 +135,19 @@ public class Archer : MonoBehaviour
         }
 
         // Allowing monsters to walk past each other
-        if (monsters.Length != 0)
+        if (skeletons.Length != 0)
         {
-            foreach (Collider2D enemy in monsters)
+            foreach (Collider2D enemy in skeletons)
+            {
+                if (bodyCollider.IsTouching(enemy))
+                {
+                    Physics2D.IgnoreCollision(bodyCollider, enemy);
+                }
+            }
+        }
+        if (archers.Length != 0)
+        {
+            foreach (Collider2D enemy in archers)
             {
                 if (bodyCollider.IsTouching(enemy))
                 {
@@ -187,6 +200,9 @@ public class Archer : MonoBehaviour
 
         // Gives player exp
         player.GetComponent<PlayerController>().exp += 20;
+
+        // Gives player gold
+        player.GetComponent<PlayerController>().gold += 20;
 
         // Monster revives after a set amount of time
         StartCoroutine(MonsterRespawn());
