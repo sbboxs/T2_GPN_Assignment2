@@ -14,8 +14,22 @@ public class EnchantTrigger : MonoBehaviour
     public GameObject characterButton;
     private bool playerInRange;
 
+    public static List<Equipment> equipmentList;
+
     private void Awake()
     {
+        // Setting up Equipment detail for enchant
+        equipmentList = DataHandler.ReadListFromJSON<Equipment>("Equipment");
+        if (equipmentList.Count > 0)
+        {
+            Debug.Log("Enchant Set up");
+        }
+        else
+        {
+            Debug.Log("Enchant Set up failed");
+        }
+
+        //Set default to false
         playerInRange = false;
         enchantVisualCue.SetActive(false);
     }
@@ -51,6 +65,37 @@ public class EnchantTrigger : MonoBehaviour
         if (collider.gameObject.tag == "Player")
         {
             playerInRange = false;
+        }
+    }
+
+    public static Equipment GetEquipmentAttribute(string EquipmentType)
+    {
+        foreach (Equipment equipment in equipmentList)
+        {
+            if (equipment.equipmentType == EquipmentType)
+            {
+                return equipment;
+            }
+        }
+        return null;
+    }
+    public static List<Equipment> GetEquipmentList()
+    {
+        return equipmentList;
+    }
+
+    public static void updateEquipmentList()
+    {
+        equipmentList = new List<Equipment>();
+
+        equipmentList = DataHandler.ReadListFromJSON<Equipment>("Equipment");
+        if (equipmentList.Count > 0)
+        {
+            Debug.Log("Equipment list updated");
+        }
+        else
+        {
+            Debug.Log("Equipment list update failed");
         }
     }
 }
