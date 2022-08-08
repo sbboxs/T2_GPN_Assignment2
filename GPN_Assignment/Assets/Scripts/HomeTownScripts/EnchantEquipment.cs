@@ -9,6 +9,7 @@ public class EnchantEquipment : MonoBehaviour
     public Equipment enchantEquipment;
 
     public GameObject enchantPanel;
+
     public void enchantItem()
     {
         enchantEquipment = EnchantSetUp.currentEquipment();
@@ -25,7 +26,7 @@ public class EnchantEquipment : MonoBehaviour
             string selectedEquipmentType = enchantEquipment.equipmentType;
             if (selectedEquipmentType == "Weapon")
             {
-                enchantEquipment.equipmentArritbute += 1;
+                enchantEquipment.equipmentArritbute += 5;
             }
             else if (selectedEquipmentType == "Ring")
             {
@@ -37,7 +38,7 @@ public class EnchantEquipment : MonoBehaviour
             }
             else if (selectedEquipmentType == "Armor")
             {
-                enchantEquipment.equipmentArritbute += 10;
+                enchantEquipment.equipmentArritbute += 5;
             }
             else
             {
@@ -55,12 +56,56 @@ public class EnchantEquipment : MonoBehaviour
                     equipment.equipmentEnchantLvl = enchantEquipment.equipmentEnchantLvl;
                 }
             }
-            DataHandler.SaveToJSON(equipmentList, "Equipment");
+
             enchantStatus.text = "Enchance Successfuly!!";
             EnchantTrigger.updateEquipmentList();
+            updateChracterAttribute(equipmentList,enchantEquipment);
             enchantPanel.SetActive(false);
             enchantPanel.SetActive(true);
         }
+    }
+
+    //Update Overall Character Attribute
+    public static void updateChracterAttribute(List<Equipment> equipmentList, Equipment currentEquipment)
+    {
+        CharacterAttribute character = DataHandler.ReadFromJSON<CharacterAttribute>("CharacterAttribute");
+        foreach (Equipment equipment in equipmentList)
+        {
+            if (equipment.equipmentType == currentEquipment.equipmentType)
+            {
+                character.strength = equipment.equipmentArritbute;
+            }
+            else if (equipment.equipmentType == currentEquipment.equipmentType)
+            {
+                character.mana = equipment.equipmentArritbute;
+            }
+            else if (equipment.equipmentType == currentEquipment.equipmentType)
+            {
+                character.health = equipment.equipmentArritbute;
+            }
+            else
+            {
+                character.defense = equipment.equipmentArritbute;
+            }
+        }
+
+        for (int i = 0; i < character.strengthStatsPt; i++)
+        {
+            character.strength += 5;
+        }
+
+        for (int i = 0; i < character.healthStatsPt; i++)
+        {
+            character.healthStatsPt += 10;
+        }
+
+        for (int i = 0; i < character.defenseStatsPt; i++)
+        {
+            character.defense += 5;
+        }
+
+        character.remainingStatsPt = character.level - character.healthStatsPt - character.strengthStatsPt - character.defenseStatsPt - 1;
+        DataHandler.SaveToJSON(character, "CharacterAttribute");
     }
 }
 

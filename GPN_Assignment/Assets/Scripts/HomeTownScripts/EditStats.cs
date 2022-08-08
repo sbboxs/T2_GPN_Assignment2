@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -13,7 +13,6 @@ public class EditStats : MonoBehaviour
     {
         character = DataHandler.ReadFromJSON<CharacterAttribute>("CharacterAttribute");
         string currentStats = selectedStats.text.ToString();
-        character.remainingStatsPt = character.level - character.healthStatsPt - character.strengthStatsPt - character.defenseStatsPt;
         Debug.Log("chosenStats: " + currentStats);
 
         if (character.remainingStatsPt > 0)
@@ -37,11 +36,12 @@ public class EditStats : MonoBehaviour
             {
                 Debug.Log(currentStats + " Invalid stats");
             }
-            character.remainingStatsPt = character.level - character.healthStatsPt - character.strengthStatsPt - character.defenseStatsPt;
-            DataHandler.SaveToJSON(character,"CharacterAttribute");
+
+            character.remainingStatsPt -= 1;
+            //update最终属性
+            updateChracterAttribute(character);
             statsPanel.SetActive(false);
             statsPanel.SetActive(true);
-            Debug.Log("End Remaining " + character.remainingStatsPt);
             Debug.Log("Added Stat");
         }
         else
@@ -59,8 +59,31 @@ public class EditStats : MonoBehaviour
         character.defenseStatsPt = 0;
         character.remainingStatsPt = character.level;
         DataHandler.SaveToJSON(character, "CharacterAttribute");
+        GameSetUpScript.updateChracterAttribute();
         statsPanel.SetActive(false);
         statsPanel.SetActive(true);
         Debug.Log("Resetted");
+    }
+
+    //Update Overall Character Attribute
+    public static void updateChracterAttribute(CharacterAttribute character)
+    {
+        for (int i = 0; i < character.strengthStatsPt; i++)
+        {
+            character.strength += 5;
+        }
+
+        for (int i = 0; i < character.healthStatsPt; i++)
+        {
+            character.healthStatsPt += 10;
+        }
+
+        for (int i = 0; i < character.defenseStatsPt; i++)
+        {
+            character.defense += 5;
+        }
+
+        character.remainingStatsPt = character.level - character.healthStatsPt - character.strengthStatsPt - character.defenseStatsPt - 1;
+        DataHandler.SaveToJSON(character, "CharacterAttribute");
     }
 }
