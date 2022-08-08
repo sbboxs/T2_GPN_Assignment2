@@ -40,8 +40,11 @@ public class GameSetUpScript : MonoBehaviour
 
             DataHandler.SaveToJSON(characterAttribute, "CharacterAttribute");
         }
+    }
 
-
+    public static void updateChracterAttribute()
+    {
+        //DataHandler.ReadFromJSON(
     }
 
     
