@@ -44,7 +44,7 @@ public class GameSetUpScript : MonoBehaviour
 
     public static void updateChracterAttribute()
     {
-        DataHandler.ReadFromJSON(
+        //DataHandler.ReadFromJSON(
     }
 
     
