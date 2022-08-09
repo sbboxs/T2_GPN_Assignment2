@@ -11,6 +11,8 @@ public class EnchantEquipment : MonoBehaviour
     public GameObject enchantPanel;
     public GameObject statusBar;
 
+    public AudioSource enchantSound;
+
     private CharacterAttribute character;
     public void enchantItem()
     {
@@ -25,6 +27,7 @@ public class EnchantEquipment : MonoBehaviour
             character = DataHandler.ReadFromJSON<CharacterAttribute>("CharacterAttribute");
             if(enchantEquipment.equipmentEnchantCost <= character.gold)
             {
+                enchantSound.Play();
                 equipmentList = EnchantTrigger.GetEquipmentList();
                 string selectedEquipmentType = enchantEquipment.equipmentType;
                 if (selectedEquipmentType == "Weapon")

@@ -8,15 +8,20 @@ public class FireBall : MonoBehaviour
     public int damage;
     public int manaCost;
     public GameObject diePEFFECT;
+    public AudioSource dieSound;
     GameObject[] skeleton;
     GameObject[] archer;
     GameObject boss;
+    GameObject player;
     int bossHealth;
 
     // Start is called before the first frame update
     void Start()
     {
         Physics2D.IgnoreLayerCollision(7, 13);
+        player = GameObject.Find("Player");
+        damage = (int) (player.GetComponent<PlayerController>().atkDMG * 1.2);
+        manaCost = 30;
         skeleton = GameObject.FindGameObjectsWithTag("Skeleton");
         archer = GameObject.FindGameObjectsWithTag("Archer");
         boss = GameObject.FindGameObjectWithTag("Boss");
@@ -40,7 +45,7 @@ public class FireBall : MonoBehaviour
             int health = arc.GetComponent<Archer>().currentHealth;
             if (health > 0 && col.collider.name.Equals(arc.GetComponent<Archer>().bodyCollider.name))
             {
-                arc.GetComponent<Skeleton>().TakeDamage(damage);
+                arc.GetComponent<Archer>().TakeDamage(damage);
             }
         }
         if (bossHealth > 0 && col.collider.name.Equals(boss.GetComponent<Boss>().bodyCollider.name))
@@ -52,6 +57,7 @@ public class FireBall : MonoBehaviour
 
     void Die()
     {
+        dieSound.Play();
         Destroy(gameObject);
     }
 }

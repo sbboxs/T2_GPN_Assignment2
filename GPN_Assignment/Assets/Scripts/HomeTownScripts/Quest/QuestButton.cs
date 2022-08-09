@@ -6,6 +6,7 @@ public class QuestButton : MonoBehaviour
 {
     public GameObject questPanel;
     public GameObject statusBar;
+    public AudioSource completeSound;
     public void AcceptQuest()
     {
         Quest currentQuest = SetUpQuest.getCurrentQuest();
@@ -31,6 +32,7 @@ public class QuestButton : MonoBehaviour
 
     public void CompleteQuest()
     {
+        completeSound.Play();
         Quest currentQuest = SetUpQuest.getCurrentQuest();
         List<Quest> questList = DataHandler.ReadListFromJSON<Quest>("Quest");
         foreach (Quest quest in questList)
@@ -38,10 +40,11 @@ public class QuestButton : MonoBehaviour
             if (quest.questTitle == currentQuest.questTitle)
             {
                 quest.questStatus = "Not Accepted";
+                quest.archiveAmount = 0;
                 CharacterAttribute character = DataHandler.ReadFromJSON<CharacterAttribute>("CharacterAttribute");
                 character.experience += quest.rewardExp;
                 character.gold += quest.rewardGold;
-                if(character.experience >= (character.level + 1000) * 1.3)
+                if (character.experience >= (character.level + 1000) * 1.3)
                 {
                     character.experience = character.experience - (character.level + 1000) * 1.3;
                     character.level += 1;

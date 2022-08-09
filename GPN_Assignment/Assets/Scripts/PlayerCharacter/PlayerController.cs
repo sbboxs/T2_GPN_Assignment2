@@ -28,13 +28,15 @@ public class PlayerController : MonoBehaviour
     int maxMana;
     public int currentMana;
     int defense;
-    int atkDMG;
+    public int atkDMG;
     bool attacking = false;
     int lvl;
     double maxexp;
     public double exp;
     int attackCount = 1;
     public int gold;
+    public int amountKilled;
+    public Quest quest1;
 
     // Variable for fireball
     public GameObject fireBall;
@@ -44,11 +46,27 @@ public class PlayerController : MonoBehaviour
     // Variable for rage
     bool canRage;
 
+    // Variables for audio
+    public AudioSource swing;
+    public AudioSource footstep;
+    public AudioSource rage;
+    public AudioSource rageEnd;
+    public AudioSource fireball;
+
 
     // Start is called before the first frame update
     void Start()
     {
         p = GetComponent<Rigidbody2D>();
+        List<Quest> questList = DataHandler.ReadListFromJSON<Quest>("Quest");
+        foreach (Quest quest in questList)
+        {
+            if (quest.questStatus == "Accepted")
+            {
+                quest1 = quest;
+                break;
+            }
+        }
         CharacterAttribute character = DataHandler.ReadFromJSON<CharacterAttribute>("CharacterAttribute");
         currentHealth = character.health;
         atkDMG = character.strength;
@@ -57,6 +75,7 @@ public class PlayerController : MonoBehaviour
         maxexp = (character.level + 1000) * 1.3;
         defense = character.defense;
         currentMana = character.mana;
+        maxMana = currentMana;
         gold = character.gold;
         canShoot = true;
         canRage = true;
@@ -93,10 +112,15 @@ public class PlayerController : MonoBehaviour
             {
                 playerAnimator.SetBool("IsRunning", true);
                 transform.localScale = new Vector2(Mathf.Abs(transform.localScale.x) * direction, transform.localScale.y);
+                if (!footstep.isPlaying)
+                {
+                    footstep.Play();
+                }
             }
             else
             {
                 playerAnimator.SetBool("IsRunning", false);
+                footstep.Stop();
             }
 
             // Jumping
@@ -124,6 +148,12 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E) && canShoot && !(currentMana <= 0))
             {
                 StartCoroutine(Fireball());
+            }
+
+            // Regen Mana
+            if (canShoot)
+            {
+                StartCoroutine(RegenMana());
             }
 
             // Rage
@@ -171,12 +201,14 @@ public class PlayerController : MonoBehaviour
         {
             // Player animator
             playerAnimator.SetTrigger("Attack");
+            swing.Play();
             attackCount = 2;
         }
         else
         {
             // Player animator
             playerAnimator.SetTrigger("Attack2");
+            swing.Play();
             attackCount = 1;
         }
 
@@ -228,6 +260,8 @@ public class PlayerController : MonoBehaviour
 
         currentMana -= fireBall.GetComponent<FireBall>().manaCost;
 
+        fireball.Play();
+
         GameObject newFireBall = Instantiate(fireBall, AttackPoint.position, Quaternion.identity);
 
         if (transform.localScale.x > 0)
@@ -253,6 +287,8 @@ public class PlayerController : MonoBehaviour
 
         atkDMG += 30;
 
+        rage.Play();
+
         Debug.Log("Rage Started");
 
         yield return new WaitForSeconds(15);
@@ -261,8 +297,24 @@ public class PlayerController : MonoBehaviour
 
         atkDMG -= 30;
 
+        rageEnd.Play();
+
         yield return new WaitForSeconds(30);
 
         canRage = true;
+    }
+
+    IEnumerator RegenMana()
+    {
+        yield return new WaitForSeconds(10);
+
+        if (currentMana < maxMana)
+        {
+            currentMana += 10;
+        }
+        else
+        {
+            currentMana = maxMana;
+        }
     }
 }

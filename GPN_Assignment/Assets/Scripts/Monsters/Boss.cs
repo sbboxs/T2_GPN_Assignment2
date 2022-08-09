@@ -197,6 +197,8 @@ public class Boss : MonoBehaviour
 
     void Die()
     {
+        CharacterAttribute character = DataHandler.ReadFromJSON<CharacterAttribute>("CharacterAttribute");
+
         // Death animation
         bossAnimator.SetBool("IsDead", true);
 
@@ -206,11 +208,12 @@ public class Boss : MonoBehaviour
         // Heals the player
         player.GetComponent<PlayerController>().currentHealth += 20;
 
-        // Gives player exp
-        player.GetComponent<PlayerController>().exp += 100;
-
-        // Gives player gold
-        player.GetComponent<PlayerController>().gold += 100;
+        // Gives player exp and gold
+        player.GetComponent<PlayerController>().exp += 20;
+        player.GetComponent<PlayerController>().gold += 10;
+        character.experience += 20;
+        character.gold += 10;
+        DataHandler.SaveToJSON(character, "CharacterAttribute");
 
         // Monster revives after a set amount of time
         StartCoroutine(MonsterRespawn());

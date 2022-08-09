@@ -44,6 +44,8 @@ public class Skeleton : MonoBehaviour
     // Animator for monster
     public Animator skeletonAnimator;
 
+    public AudioSource swing;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -172,6 +174,8 @@ public class Skeleton : MonoBehaviour
         // Activates the attack animation of the monster
         skeletonAnimator.SetTrigger("Attack");
 
+        swing.Play();
+
         yield return new WaitForSeconds(1);
 
         playerCollider.GetComponent<PlayerController>().TakeDamage(atk);
@@ -235,8 +239,37 @@ public class Skeleton : MonoBehaviour
         character.gold += 10;
         DataHandler.SaveToJSON(character, "CharacterAttribute");
 
-        // Gives player gold
-        player.GetComponent<PlayerController>().gold += 10;
+        // Quest
+        Quest currentQuest = player.GetComponent<PlayerController>().quest1;
+        Debug.Log(currentQuest.questTitle);
+        if (currentQuest.archiveAmount < currentQuest.objectiveAmount)
+        {
+            List<Quest> questList = DataHandler.ReadListFromJSON<Quest>("Quest");
+            for (int i = 0; i < questList.Count; i++)
+            {
+                if (questList[i].questTitle == currentQuest.questTitle)
+                {
+                    questList[i].archiveAmount += 1;
+                    currentQuest.archiveAmount += 1;
+                    break;
+                }
+            }
+            DataHandler.SaveToJSON(questList, "Quest");
+        }
+        else
+        {
+            List<Quest> questList = DataHandler.ReadListFromJSON<Quest>("Quest");
+            for (int i = 0; i < questList.Count; i++)
+            {
+                if (questList[i].questTitle == currentQuest.questTitle)
+                {
+                    questList[i].questStatus = "Completed";
+                    currentQuest.questStatus = "Completed";
+                    break;
+                }
+            }
+            DataHandler.SaveToJSON(questList, "Quest");
+        }
 
         // Monster revives after a set amount of time
         StartCoroutine(MonsterRespawn());
