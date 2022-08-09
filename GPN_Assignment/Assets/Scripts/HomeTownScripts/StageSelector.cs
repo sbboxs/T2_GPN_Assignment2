@@ -9,8 +9,7 @@ public class StageSelector : MonoBehaviour
     public void PlayGame()
     {
         string stageNo = stage.text.ToString();
-        int number = int.Parse(stageNo) + 3;
-        Debug.Log(number);
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + number );
+        int number = int.Parse(stageNo) + 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + number);
     }
 }
