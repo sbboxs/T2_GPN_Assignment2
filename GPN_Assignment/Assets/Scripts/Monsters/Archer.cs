@@ -206,10 +206,10 @@ public class Archer : MonoBehaviour
         }
 
         // Gives player exp and gold
-        player.GetComponent<PlayerController>().exp += 20;
-        player.GetComponent<PlayerController>().gold += 10;
-        character.experience += 20;
-        character.gold += 10;
+        player.GetComponent<PlayerController>().exp += 100;
+        player.GetComponent<PlayerController>().gold += 200;
+        character.experience += 100;
+        character.gold += 200;
         DataHandler.SaveToJSON(character, "CharacterAttribute");
 
         // Monster revives after a set amount of time

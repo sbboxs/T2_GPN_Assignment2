@@ -209,10 +209,10 @@ public class Boss : MonoBehaviour
         player.GetComponent<PlayerController>().currentHealth += 20;
 
         // Gives player exp and gold
-        player.GetComponent<PlayerController>().exp += 20;
-        player.GetComponent<PlayerController>().gold += 10;
-        character.experience += 20;
-        character.gold += 10;
+        player.GetComponent<PlayerController>().exp += 1000;
+        player.GetComponent<PlayerController>().gold += 2000;
+        character.experience += 1000;
+        character.gold += 2000;
         DataHandler.SaveToJSON(character, "CharacterAttribute");
 
         // Monster revives after a set amount of time
