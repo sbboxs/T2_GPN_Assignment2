@@ -683,9 +683,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 20
-  maxHealth: 10
+  maxHealth: 50
   currentHealth: 0
-  atk: 15
+  atk: 30
   skeletonAnimator: {fileID: 93451404}
   swing: {fileID: 674786289}
 --- !u!114 &93451401
@@ -926,9 +926,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 20
-  maxHealth: 10
+  maxHealth: 50
   currentHealth: 0
-  atk: 15
+  atk: 30
   skeletonAnimator: {fileID: 153148627}
   swing: {fileID: 674786289}
 --- !u!114 &153148624
@@ -1169,9 +1169,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 20
-  maxHealth: 10
+  maxHealth: 50
   currentHealth: 0
-  atk: 15
+  atk: 30
   skeletonAnimator: {fileID: 257480496}
   swing: {fileID: 674786289}
 --- !u!114 &257480493
@@ -2921,9 +2921,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 20
-  maxHealth: 10
+  maxHealth: 50
   currentHealth: 0
-  atk: 15
+  atk: 30
   skeletonAnimator: {fileID: 889018852}
   swing: {fileID: 674786289}
 --- !u!114 &889018849
@@ -3133,9 +3133,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 20
-  maxHealth: 10
+  maxHealth: 50
   currentHealth: 0
-  atk: 15
+  atk: 30
   skeletonAnimator: {fileID: 926982019}
   swing: {fileID: 674786289}
 --- !u!114 &926982016
@@ -4309,9 +4309,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 20
-  maxHealth: 10
+  maxHealth: 50
   currentHealth: 0
-  atk: 15
+  atk: 30
   skeletonAnimator: {fileID: 1297701921}
   swing: {fileID: 674786289}
 --- !u!114 &1297701918
@@ -10337,9 +10337,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 20
-  maxHealth: 10
+  maxHealth: 50
   currentHealth: 0
-  atk: 15
+  atk: 30
   skeletonAnimator: {fileID: 1995743411}
   swing: {fileID: 674786289}
 --- !u!114 &1995743408
@@ -10691,9 +10691,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 20
-  maxHealth: 10
+  maxHealth: 50
   currentHealth: 0
-  atk: 15
+  atk: 30
   skeletonAnimator: {fileID: 2132979045}
   swing: {fileID: 674786289}
 --- !u!114 &2132979042

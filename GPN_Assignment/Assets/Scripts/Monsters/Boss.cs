@@ -33,9 +33,9 @@ public class Boss : MonoBehaviour
     public int range;
 
     // Variables for monster stats
-    int maxHealth = 1000;
+    public int maxHealth;
     public int currentHealth;
-    int atk = 30;
+    public int atk;
     float atkSpeed = 1;
     bool canAttack;
     //bool hurt;
@@ -108,14 +108,14 @@ public class Boss : MonoBehaviour
         }
 
         // Checking for the different stages of the boss
-        if (currentHealth <= 300)
+        if (currentHealth <= maxHealth * 0.3)
         {
-            atk = 90;
+            atk += 90;
             atkSpeed = 0.25f;
         }
-        else if (currentHealth <= 700)
+        else if (currentHealth <= maxHealth * 0.7)
         {
-            atk = 60;
+            atk += 60;
             atkSpeed = 0.5f;
         }
     }

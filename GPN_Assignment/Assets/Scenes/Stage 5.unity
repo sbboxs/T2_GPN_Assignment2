@@ -1403,9 +1403,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 20
-  maxHealth: 10
+  maxHealth: 400
   currentHealth: 0
-  atk: 15
+  atk: 240
   skeletonAnimator: {fileID: 637006724}
   swing: {fileID: 2077722914}
 --- !u!114 &637006721
@@ -1758,7 +1758,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 30
-  maxHealth: 100
+  maxHealth: 400
   currentHealth: 0
   arrow: {fileID: 987083297778883385, guid: 27277137d0605bd45bd741cdb791e0c1, type: 3}
   shootSpeed: 30
@@ -2177,9 +2177,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 20
-  maxHealth: 10
+  maxHealth: 400
   currentHealth: 0
-  atk: 15
+  atk: 240
   skeletonAnimator: {fileID: 922400210}
   swing: {fileID: 2077722914}
 --- !u!114 &922400207
@@ -2643,7 +2643,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 30
-  maxHealth: 100
+  maxHealth: 400
   currentHealth: 0
   arrow: {fileID: 987083297778883385, guid: 27277137d0605bd45bd741cdb791e0c1, type: 3}
   shootSpeed: 30
@@ -3348,7 +3348,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 30
-  maxHealth: 100
+  maxHealth: 400
   currentHealth: 0
   arrow: {fileID: 987083297778883385, guid: 27277137d0605bd45bd741cdb791e0c1, type: 3}
   shootSpeed: 30
@@ -8868,7 +8868,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 30
-  maxHealth: 100
+  maxHealth: 400
   currentHealth: 0
   arrow: {fileID: 987083297778883385, guid: 27277137d0605bd45bd741cdb791e0c1, type: 3}
   shootSpeed: 30
@@ -9244,7 +9244,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 30
-  maxHealth: 100
+  maxHealth: 400
   currentHealth: 0
   arrow: {fileID: 987083297778883385, guid: 27277137d0605bd45bd741cdb791e0c1, type: 3}
   shootSpeed: 30
@@ -10813,7 +10813,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 30
-  maxHealth: 100
+  maxHealth: 400
   currentHealth: 0
   arrow: {fileID: 987083297778883385, guid: 27277137d0605bd45bd741cdb791e0c1, type: 3}
   shootSpeed: 30

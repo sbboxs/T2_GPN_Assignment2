@@ -15,7 +15,7 @@ public class GameSetUpScript : MonoBehaviour
             Debug.Log("Setting up Equipment");
 
             //Strength
-            Equipment newWeapon = new Equipment("Weapon", 1, 0,100);
+            Equipment newWeapon = new Equipment("Weapon", 5, 0,100);
             equipmentList.Add(newWeapon);
 
             //Mana
@@ -23,7 +23,7 @@ public class GameSetUpScript : MonoBehaviour
             equipmentList.Add(newRing);
         
             //Defense
-            Equipment newArmor = new Equipment("Armor", 1, 0,100);
+            Equipment newArmor = new Equipment("Armor", 5, 0,100);
             equipmentList.Add(newArmor);
 
             //Health
@@ -34,7 +34,7 @@ public class GameSetUpScript : MonoBehaviour
         }
 
         //Setting up character attribute 
-        CharacterAttribute character = new CharacterAttribute(1, 1, 100, 100, 1, 0, 0, 0, 0, 0, 0);
+        CharacterAttribute character = new CharacterAttribute(5, 5, 100, 100, 1, 0, 0, 0, 0, 0, 0);
         CharacterAttribute characterAttribute = DataHandler.ReadFromJSON<CharacterAttribute>("CharacterAttribute");
         if (characterAttribute == default(CharacterAttribute)){
             Debug.Log("Setting up Chracter Attributes");

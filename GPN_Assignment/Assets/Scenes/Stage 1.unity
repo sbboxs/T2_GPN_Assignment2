@@ -345,7 +345,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 20
-  maxHealth: 10
+  maxHealth: 25
   currentHealth: 0
   atk: 15
   skeletonAnimator: {fileID: 93465031}
@@ -1048,7 +1048,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 20
-  maxHealth: 10
+  maxHealth: 25
   currentHealth: 0
   atk: 15
   skeletonAnimator: {fileID: 349156067}
@@ -3074,7 +3074,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 20
-  maxHealth: 10
+  maxHealth: 25
   currentHealth: 0
   atk: 15
   skeletonAnimator: {fileID: 939725379}
@@ -3977,7 +3977,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 20
-  maxHealth: 10
+  maxHealth: 25
   currentHealth: 0
   atk: 15
   skeletonAnimator: {fileID: 1387740400}
@@ -4585,7 +4585,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 20
-  maxHealth: 10
+  maxHealth: 25
   currentHealth: 0
   atk: 15
   skeletonAnimator: {fileID: 1634417516}
@@ -4797,7 +4797,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 20
-  maxHealth: 10
+  maxHealth: 25
   currentHealth: 0
   atk: 15
   skeletonAnimator: {fileID: 1671297629}
@@ -5009,7 +5009,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 20
-  maxHealth: 10
+  maxHealth: 25
   currentHealth: 0
   atk: 15
   skeletonAnimator: {fileID: 1696223550}
@@ -5283,7 +5283,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 20
-  maxHealth: 10
+  maxHealth: 25
   currentHealth: 0
   atk: 15
   skeletonAnimator: {fileID: 1808491569}

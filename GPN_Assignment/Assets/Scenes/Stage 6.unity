@@ -989,7 +989,9 @@ MonoBehaviour:
     m_Bits: 128
   playerCollider: {fileID: 1706401083}
   range: 100
+  maxHealth: 2000
   currentHealth: 0
+  atk: 480
   bossAnimator: {fileID: 210510123}
 --- !u!95 &210510123
 Animator:

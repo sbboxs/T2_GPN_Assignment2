@@ -233,10 +233,10 @@ public class Skeleton : MonoBehaviour
         }
 
         // Gives player exp and gold
-        player.GetComponent<PlayerController>().exp += 20;
-        player.GetComponent<PlayerController>().gold += 10;
-        character.experience += 20;
-        character.gold += 10;
+        player.GetComponent<PlayerController>().exp += 50;
+        player.GetComponent<PlayerController>().gold += 100;
+        character.experience += 50;
+        character.gold += 100;
         DataHandler.SaveToJSON(character, "CharacterAttribute");
 
         // Quest

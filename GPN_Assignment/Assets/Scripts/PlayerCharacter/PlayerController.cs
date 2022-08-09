@@ -168,8 +168,6 @@ public class PlayerController : MonoBehaviour
     {
         currentHealth -= damage - defense;
 
-        Debug.Log(currentHealth);
-
         //Hurt Animation
         playerAnimator.SetTrigger("Hurt");
         if (currentHealth <= 0)

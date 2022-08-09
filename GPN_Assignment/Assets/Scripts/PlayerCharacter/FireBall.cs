@@ -20,7 +20,7 @@ public class FireBall : MonoBehaviour
     {
         Physics2D.IgnoreLayerCollision(7, 13);
         player = GameObject.Find("Player");
-        damage = (int) (player.GetComponent<PlayerController>().atkDMG * 1.2);
+        damage = player.GetComponent<PlayerController>().atkDMG * 2;
         manaCost = 30;
         skeleton = GameObject.FindGameObjectsWithTag("Skeleton");
         archer = GameObject.FindGameObjectsWithTag("Archer");

@@ -147,7 +147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dieTime: 5
-  damage: 15
+  damage: 60
   diePEFFECT: {fileID: 987083297778883385}
   player: {fileID: 0}
   bodyCollider: {fileID: 4921585723080050933}

@@ -229,7 +229,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 30
-  maxHealth: 100
+  maxHealth: 200
   currentHealth: 0
   arrow: {fileID: 987083297778883385, guid: 27277137d0605bd45bd741cdb791e0c1, type: 3}
   shootSpeed: 30
@@ -1457,7 +1457,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 30
-  maxHealth: 100
+  maxHealth: 200
   currentHealth: 0
   arrow: {fileID: 987083297778883385, guid: 27277137d0605bd45bd741cdb791e0c1, type: 3}
   shootSpeed: 30
@@ -1655,9 +1655,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 20
-  maxHealth: 10
+  maxHealth: 200
   currentHealth: 0
-  atk: 15
+  atk: 120
   skeletonAnimator: {fileID: 850530005}
   swing: {fileID: 2030609495}
 --- !u!114 &850530002
@@ -2578,9 +2578,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 20
-  maxHealth: 10
+  maxHealth: 200
   currentHealth: 0
-  atk: 15
+  atk: 120
   skeletonAnimator: {fileID: 1049074675}
   swing: {fileID: 2030609495}
 --- !u!114 &1049074672
@@ -3375,9 +3375,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 20
-  maxHealth: 10
+  maxHealth: 200
   currentHealth: 0
-  atk: 15
+  atk: 120
   skeletonAnimator: {fileID: 1461023976}
   swing: {fileID: 2030609495}
 --- !u!114 &1461023973
@@ -4077,9 +4077,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 20
-  maxHealth: 10
+  maxHealth: 200
   currentHealth: 0
-  atk: 15
+  atk: 120
   skeletonAnimator: {fileID: 1599062342}
   swing: {fileID: 2030609495}
 --- !u!114 &1599062339
@@ -10002,7 +10002,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 30
-  maxHealth: 100
+  maxHealth: 200
   currentHealth: 0
   arrow: {fileID: 987083297778883385, guid: 27277137d0605bd45bd741cdb791e0c1, type: 3}
   shootSpeed: 30
@@ -10808,7 +10808,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 30
-  maxHealth: 100
+  maxHealth: 200
   currentHealth: 0
   arrow: {fileID: 987083297778883385, guid: 27277137d0605bd45bd741cdb791e0c1, type: 3}
   shootSpeed: 30
