@@ -8,11 +8,25 @@ public class StatusBar : MonoBehaviour
     public TextMeshProUGUI maxMana;
     public TextMeshProUGUI gold;
     public TextMeshProUGUI experience;
+    int maxhealth;
+    int currenthealth;
+    int maxmana;
+    int currentmana;
+    double currentexp;
+    double maxexp;
+    GameObject player;
 
     void Start()
     {
+        player = GameObject.Find("Player");
         updateStatusBar();
     }
+
+    void Update()
+    {
+        updateStatusBar();
+    }
+
     private void OnEnable()
     {
         Debug.Log("Update status bar");
@@ -21,9 +35,15 @@ public class StatusBar : MonoBehaviour
     public void updateStatusBar()
     {
         CharacterAttribute character = DataHandler.ReadFromJSON<CharacterAttribute>("CharacterAttribute");
-        maxHealth.text = character.health.ToString() + " / " + character.health.ToString();
-        maxMana.text = character.mana.ToString() + " / " + character.mana.ToString();
+        maxhealth = character.health;
+        currenthealth = player.GetComponent<PlayerController>().currentHealth;
+        maxmana = character.mana;
+        currentmana = player.GetComponent<PlayerController>().currentMana;
+        maxexp = (character.level + 1000) * 1.3;
+        currentexp = player.GetComponent<PlayerController>().exp;
+        maxHealth.text = currenthealth.ToString() + " / " + maxhealth.ToString();
+        maxMana.text = currentmana.ToString() + " / " + maxmana.ToString();
         gold.text = character.gold.ToString();
-        experience.text = character.experience.ToString() + " / " + ((character.level + 1000) * 1.3).ToString();
+        experience.text = currentexp.ToString() + " / " + maxexp.ToString();
     }
 }

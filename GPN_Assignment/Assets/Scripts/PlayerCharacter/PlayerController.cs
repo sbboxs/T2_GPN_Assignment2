@@ -23,16 +23,18 @@ public class PlayerController : MonoBehaviour
     public float attackRateBoost = 0f; //Get from item
 
     //Variable for character status
-    public int maxHealth = 1000;
-    private int equipmentHealth;
+    int maxHealth;
     public int currentHealth;
-    int atkDMG = 100;
+    int maxMana;
+    public int currentMana;
+    int defense;
+    int atkDMG;
     bool attacking = false;
-    int lvl = 1;
-    public int exp = 0;
-    public int gold = 0;
-    int lvlUp;
+    int lvl;
+    double maxexp;
+    public double exp;
     int attackCount = 1;
+    public int gold;
 
     // Variable for fireball
     public GameObject fireBall;
@@ -47,7 +49,15 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         p = GetComponent<Rigidbody2D>();
-        currentHealth = maxHealth + equipmentHealth;
+        CharacterAttribute character = DataHandler.ReadFromJSON<CharacterAttribute>("CharacterAttribute");
+        currentHealth = character.health;
+        atkDMG = character.strength;
+        lvl = character.level;
+        exp = character.experience;
+        maxexp = (character.level + 1000) * 1.3;
+        defense = character.defense;
+        currentMana = character.mana;
+        gold = character.gold;
         canShoot = true;
         canRage = true;
 
@@ -63,18 +73,14 @@ public class PlayerController : MonoBehaviour
         if (currentHealth > 0)
         {
             // Lvling up
-            lvlUp = lvl * 50;
-
-            if (exp >= lvlUp)
+            if (exp >= maxexp)
             {
-                exp = exp - lvlUp;
-                lvl += 1;
-                atkDMG += 10;
-                maxHealth += 20;
-                currentHealth = maxHealth;
-                Debug.Log(lvl);
-                Debug.Log(atkDMG);
-                Debug.Log(currentHealth);
+                CharacterAttribute character = DataHandler.ReadFromJSON<CharacterAttribute>("CharacterAttribute");
+                exp = exp - maxexp;
+                character.level += 1;
+                character.remainingStatsPt += 1;
+                maxexp = (character.level + 1000) * 1.3;
+                DataHandler.SaveToJSON(character, "CharacterAttribute");
             }
 
             isTouchingGround = bodyCollider.IsTouchingLayers(ground);
@@ -115,7 +121,7 @@ public class PlayerController : MonoBehaviour
             }
 
             // Fireball
-            if (Input.GetKeyDown(KeyCode.E) && canShoot)
+            if (Input.GetKeyDown(KeyCode.E) && canShoot && !(currentMana <= 0))
             {
                 StartCoroutine(Fireball());
             }
@@ -130,7 +136,7 @@ public class PlayerController : MonoBehaviour
         
     public void TakeDamage(int damage)
     {
-        currentHealth -= damage;
+        currentHealth -= damage - defense;
 
         Debug.Log(currentHealth);
 
@@ -183,6 +189,7 @@ public class PlayerController : MonoBehaviour
             foreach (Collider2D skeleton in skeletons)
             {
                 skeleton.GetComponent<Skeleton>().TakeDamage(atkDMG);
+                Debug.Log(atkDMG);
             }
         }
 
@@ -218,6 +225,8 @@ public class PlayerController : MonoBehaviour
     IEnumerator Fireball()
     {
         canShoot = false;
+
+        currentMana -= fireBall.GetComponent<FireBall>().manaCost;
 
         GameObject newFireBall = Instantiate(fireBall, AttackPoint.position, Quaternion.identity);
 

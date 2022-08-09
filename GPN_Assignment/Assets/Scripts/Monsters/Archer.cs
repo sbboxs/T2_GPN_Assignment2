@@ -18,7 +18,7 @@ public class Archer : MonoBehaviour
     public Transform attackPosB;
     public LayerMask groundLayer;
     public LayerMask obstacles;
-    public LayerMask skeleton;
+    public LayerMask skeletonLayer;
     public LayerMask archerLayer;
     public Collider2D bodyCollider;
     public Rigidbody2D archer;
@@ -28,15 +28,15 @@ public class Archer : MonoBehaviour
     private Collider2D[] archers;
 
     // Variables for detecting player
-    public Transform player;
+    private Transform player;
     public LayerMask playerLayer;
-    public Collider2D playerCollider;
+    private Collider2D playerCollider;
     int playerHealth;
     float distToPlayer;
     public int range;
 
     // Variables for monster stats
-    public int maxHealth;
+    public int maxHealth = 100;
     public int currentHealth;
     bool hurt;
 
@@ -55,6 +55,7 @@ public class Archer : MonoBehaviour
         mustPatrol = true;
         archer = GetComponent<Rigidbody2D>();
         player = GameObject.Find("Player").transform;
+        playerCollider = GameObject.Find("Player").GetComponent<PlayerController>().bodyCollider;
         currentHealth = maxHealth;
         canShoot = true;
         hurt = false;
@@ -125,7 +126,7 @@ public class Archer : MonoBehaviour
     void Patrol()
     {
         // Getting the list of monsters that it has came into contact with
-        skeletons = Physics2D.OverlapCircleAll(objectCheckPos.position, 0.1f, skeleton);
+        skeletons = Physics2D.OverlapCircleAll(objectCheckPos.position, 0.1f, skeletonLayer);
         archers = Physics2D.OverlapCircleAll(objectCheckPos.position, 0.1f, archerLayer);
 
         // Checking if monster needs to turn
@@ -189,6 +190,8 @@ public class Archer : MonoBehaviour
 
     void Die()
     {
+        CharacterAttribute character = DataHandler.ReadFromJSON<CharacterAttribute>("CharacterAttribute");
+
         // Death animation
         archerAnimator.SetBool("IsDead", true);
 
@@ -196,13 +199,18 @@ public class Archer : MonoBehaviour
         GetComponent<Collider2D>().enabled = false;
 
         // Heals the player
-        player.GetComponent<PlayerController>().currentHealth += 20;
+        player.GetComponent<PlayerController>().currentHealth += 10;
+        if (player.GetComponent<PlayerController>().currentHealth > character.health)
+        {
+            player.GetComponent<PlayerController>().currentHealth = character.health;
+        }
 
-        // Gives player exp
+        // Gives player exp and gold
         player.GetComponent<PlayerController>().exp += 20;
-
-        // Gives player gold
-        player.GetComponent<PlayerController>().gold += 20;
+        player.GetComponent<PlayerController>().gold += 10;
+        character.experience += 20;
+        character.gold += 10;
+        DataHandler.SaveToJSON(character, "CharacterAttribute");
 
         // Monster revives after a set amount of time
         StartCoroutine(MonsterRespawn());

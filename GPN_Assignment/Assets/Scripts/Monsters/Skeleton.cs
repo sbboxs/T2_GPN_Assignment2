@@ -27,9 +27,9 @@ public class Skeleton : MonoBehaviour
     private Collider2D[] archers;
 
     // Variables for detecting player
-    public Transform player;
+    private Transform player;
     public LayerMask playerLayer;
-    public Collider2D playerCollider;
+    private Collider2D playerCollider;
     int playerHealth;
     float distToPlayer;
     public int range;
@@ -51,6 +51,7 @@ public class Skeleton : MonoBehaviour
         mustPatrol = true;
         skeleton = GetComponent<Rigidbody2D>();
         player = GameObject.Find("Player").transform;
+        playerCollider = GameObject.Find("Player").GetComponent<PlayerController>().bodyCollider;
         currentHealth = maxHealth;
         canAttack = true;
         hurt = false;
@@ -210,6 +211,10 @@ public class Skeleton : MonoBehaviour
 
     void Die()
     {
+        CharacterAttribute character = DataHandler.ReadFromJSON<CharacterAttribute>("CharacterAttribute");
+
+        Debug.Log("Dead");
+
         // Death animation
         skeletonAnimator.SetBool("IsDead", true);
 
@@ -217,10 +222,18 @@ public class Skeleton : MonoBehaviour
         GetComponent<Collider2D>().enabled = false;
 
         // Heals the player
-        player.GetComponent<PlayerController>().currentHealth += 20;
+        player.GetComponent<PlayerController>().currentHealth += 10;
+        if (player.GetComponent<PlayerController>().currentHealth > character.health)
+        {
+            player.GetComponent<PlayerController>().currentHealth = character.health;
+        }
 
-        // Gives player exp
+        // Gives player exp and gold
         player.GetComponent<PlayerController>().exp += 20;
+        player.GetComponent<PlayerController>().gold += 10;
+        character.experience += 20;
+        character.gold += 10;
+        DataHandler.SaveToJSON(character, "CharacterAttribute");
 
         // Gives player gold
         player.GetComponent<PlayerController>().gold += 10;

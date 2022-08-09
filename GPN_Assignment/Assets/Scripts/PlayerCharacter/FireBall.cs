@@ -6,13 +6,12 @@ public class FireBall : MonoBehaviour
 {
     public float dieTime;
     public int damage;
+    public int manaCost;
     public GameObject diePEFFECT;
     GameObject[] skeleton;
     GameObject[] archer;
     GameObject boss;
     int bossHealth;
-    int skeletonHealth;
-    int archerHealth;
 
     // Start is called before the first frame update
     void Start()
@@ -28,26 +27,22 @@ public class FireBall : MonoBehaviour
     void OnCollisionEnter2D(Collision2D col)
     {
         Die();
-        foreach (GameObject monster1 in skeleton)
+        foreach (GameObject skele in skeleton)
         {
-            skeletonHealth = monster1.GetComponent<Skeleton>().currentHealth;
-            if (skeletonHealth > 0 && col.collider.name.Equals(monster1.GetComponent<Skeleton>().bodyCollider.name))
+            int health = skele.GetComponent<Skeleton>().currentHealth;
+            if (health > 0 && col.collider.name.Equals(skele.GetComponent<Skeleton>().bodyCollider.name))
             {
-                monster1.GetComponent<Skeleton>().TakeDamage(damage);
-                Debug.Log("Hit");
+                skele.GetComponent<Skeleton>().TakeDamage(damage);
             }
         }
-
-        foreach (GameObject monster1 in archer)
+        foreach (GameObject arc in archer)
         {
-            archerHealth = monster1.GetComponent<Archer>().currentHealth;
-            if (archerHealth > 0 && col.collider.name.Equals(monster1.GetComponent<Archer>().bodyCollider.name))
+            int health = arc.GetComponent<Archer>().currentHealth;
+            if (health > 0 && col.collider.name.Equals(arc.GetComponent<Archer>().bodyCollider.name))
             {
-                monster1.GetComponent<Archer>().TakeDamage(damage);
-                Debug.Log("Hit");
+                arc.GetComponent<Skeleton>().TakeDamage(damage);
             }
         }
-
         if (bossHealth > 0 && col.collider.name.Equals(boss.GetComponent<Boss>().bodyCollider.name))
         {
             boss.GetComponent<Boss>().TakeDamage(damage);
