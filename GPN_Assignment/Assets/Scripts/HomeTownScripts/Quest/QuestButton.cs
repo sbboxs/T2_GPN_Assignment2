@@ -43,7 +43,7 @@ public class QuestButton : MonoBehaviour
                 character.gold += quest.rewardGold;
                 if(character.experience >= (character.level + 1000) * 1.3)
                 {
-                    character.experience = 0;
+                    character.experience = character.experience - (character.level + 1000) * 1.3;
                     character.level += 1;
                     character.remainingStatsPt += 1;
                 }
