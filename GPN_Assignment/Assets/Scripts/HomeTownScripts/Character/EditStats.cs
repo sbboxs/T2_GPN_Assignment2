@@ -54,11 +54,25 @@ public class EditStats : MonoBehaviour
     public void resetStats()
     {
         character = DataHandler.ReadFromJSON<CharacterAttribute>("CharacterAttribute");
+        for (int i = 0; i < character.strengthStatsPt; i++)
+        {
+            character.strength -= 5;
+        }
+
+        for (int i = 0; i < character.healthStatsPt; i++)
+        {
+            character.health -= 10;
+        }
+
+        for (int i = 0; i < character.defenseStatsPt; i++)
+        {
+            character.defense -= 5;
+        }
         character.healthStatsPt = 0;
         character.strengthStatsPt = 0;
         character.defenseStatsPt = 0;
         character.remainingStatsPt = character.level - 1;
-        updateChracterAttribute(character);
+        DataHandler.SaveToJSON(character, "CharacterAttribute");
         statsPanel.SetActive(false);
         statsPanel.SetActive(true);
         Debug.Log("Resetted");
@@ -74,7 +88,7 @@ public class EditStats : MonoBehaviour
 
         for (int i = 0; i < character.healthStatsPt; i++)
         {
-            character.healthStatsPt += 10;
+            character.health += 10;
         }
 
         for (int i = 0; i < character.defenseStatsPt; i++)
