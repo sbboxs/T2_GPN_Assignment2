@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Ink.Runtime;
-
-public class DialogueManager : MonoBehaviour
+public class stageDialogueManager : MonoBehaviour
 {
     [Header("Dialogue UI")]
     [SerializeField] private GameObject dialoguePanel;
@@ -14,7 +13,7 @@ public class DialogueManager : MonoBehaviour
     private Story currentStory;
     public bool dialogueIsPlaying;
     public Button continueButton;
-    private static DialogueManager instance;
+    private static stageDialogueManager instance;
 
     private void Awake()
     {
@@ -25,29 +24,18 @@ public class DialogueManager : MonoBehaviour
         instance = this;
     }
 
-    public static DialogueManager GetInstance()
+    public static stageDialogueManager GetInstance()
     {
         return instance;
     }
 
     private void Start()
     {
-        dialogueIsPlaying = false;
-        dialoguePanel.SetActive(false);
+        dialogueIsPlaying = true;
+        dialoguePanel.SetActive(true);
         continueButton.onClick.AddListener(ContinueStory);
     }
 
-    private void Update()
-    {
-        // return right away if dialogue isn't playing
-        if (!dialogueIsPlaying)
-        {
-            return;
-        }
-        // handle continuing to the next line in the dialogue when submit is pressed
-
-
-    }
     public void EnterDialogueMode(TextAsset inkJSON)
     {
         currentStory = new Story(inkJSON.text);
