@@ -62,3 +62,12 @@ TagManager:
   - name: Character
     uniqueID: 4118512503
     locked: 0
+  - name: StatusBarBackground
+    uniqueID: 1267008879
+    locked: 0
+  - name: StatusBar
+    uniqueID: 3820008507
+    locked: 0
+  - name: HowToPlay
+    uniqueID: 3319606517
+    locked: 0
