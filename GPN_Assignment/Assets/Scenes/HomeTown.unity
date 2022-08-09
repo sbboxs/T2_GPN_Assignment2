@@ -1577,6 +1577,7 @@ MonoBehaviour:
     strength: 0
     defense: 0
     health: 0
+    mana: 0
     level: 0
     gold: 0
     strengthStatsPt: 0
@@ -2233,6 +2234,7 @@ MonoBehaviour:
     strength: 0
     defense: 0
     health: 0
+    mana: 0
     level: 0
     gold: 0
     strengthStatsPt: 0
@@ -5831,6 +5833,7 @@ MonoBehaviour:
     strength: 0
     defense: 0
     health: 0
+    mana: 0
     level: 0
     gold: 0
     strengthStatsPt: 0
@@ -10326,6 +10329,7 @@ MonoBehaviour:
     strength: 0
     defense: 0
     health: 0
+    mana: 0
     level: 0
     gold: 0
     strengthStatsPt: 0
@@ -11072,6 +11076,7 @@ MonoBehaviour:
     strength: 0
     defense: 0
     health: 0
+    mana: 0
     level: 0
     gold: 0
     strengthStatsPt: 0
@@ -14180,6 +14185,7 @@ MonoBehaviour:
     strength: 0
     defense: 0
     health: 0
+    mana: 0
     level: 0
     gold: 0
     strengthStatsPt: 0

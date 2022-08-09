@@ -13,7 +13,6 @@ public class updateStatsPanel : MonoBehaviour
     private void OnEnable()
     {
         CharacterAttribute character = DataHandler.ReadFromJSON<CharacterAttribute>("CharacterAttribute");
-        character.remainingStatsPt = character.level - character.healthStatsPt - character.strengthStatsPt - character.defenseStatsPt;
         Debug.Log("Update Remaining " + character.remainingStatsPt);
         healthPt.text = character.healthStatsPt.ToString();
         strengthPt.text = character.strengthStatsPt.ToString();

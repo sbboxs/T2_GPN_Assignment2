@@ -26,7 +26,6 @@ public class CharacterPanel : MonoBehaviour
         health.text = character.health.ToString();
         strength.text = character.strength.ToString();
         defense.text = character.defense.ToString();
-
     }
 
     public void showStatsPanel()
