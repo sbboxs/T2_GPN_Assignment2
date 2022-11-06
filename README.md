@@ -4,10 +4,10 @@ _This is a project done by 2 Year-2 students from Ngee Ann Polytechnic as part o
 
 Give the Amilia' Adventure a [Try](https://drive.google.com/file/d/1nqsiVhSsYwjFwyHgeS2_0lpgDP4hjLzz/view?usp=sharing)!
 
-#**About the Game**
+## **About the Game**
 Amilia Adventure is a classic role-playing game where you will play as Amilia, a warrior who has just become the guardian of the last pure land of the country, and witness her growth!
 
-#**Features**
+## **Features**
 - 6 stages and 5 different types of mobs for you to explore!
 -  Use your abilities as well as your superb swordsmanship to get experience points and gold coins from killing mobs or completing the quests!
 - Customize your character with stats points which can be earned from leveling up!
